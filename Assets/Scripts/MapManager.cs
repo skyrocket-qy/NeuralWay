@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour
     private GameObject _endMarkerInstance;
     private List<GameObject> _barrierInstances = new List<GameObject>();
     private List<GameObject> _placementSpotInstances = new List<GameObject>();
+    private GameObject _pathInstance;
 
     public Vector3 MonsterStartPoint => _currentMapData != null ? _currentMapData.monsterStartPoint : Vector3.zero;
     public Vector3 MonsterEndPoint => _currentMapData != null ? _currentMapData.monsterEndPoint : Vector3.zero;
@@ -81,34 +82,64 @@ public class MapManager : MonoBehaviour
             _endMarkerInstance.name = "End Marker (Default)";
         }
 
-        // Instantiate Barriers
-        if (barrierPrefab != null)
+        // Determine which barrier prefab to use
+        GameObject currentBarrierPrefab = _currentMapData.mapSpecificBarrierPrefab != null ? _currentMapData.mapSpecificBarrierPrefab : barrierPrefab;
+        if (currentBarrierPrefab != null)
         {
             foreach (Vector3 pos in _currentMapData.barrierPositions)
             {
-                GameObject barrier = Instantiate(barrierPrefab, pos, Quaternion.identity);
+                GameObject barrier = Instantiate(currentBarrierPrefab, pos, Quaternion.identity);
                 barrier.name = "Barrier";
                 _barrierInstances.Add(barrier);
             }
         }
         else if (_currentMapData.barrierPositions.Count > 0)
         {
-            Debug.LogWarning("Barrier Prefab not assigned. Barriers will not be instantiated.");
+            Debug.LogWarning("Barrier Prefab not assigned in MapManager or MapData. Barriers will not be instantiated.");
         }
 
-        // Instantiate Hero Placement Spots
-        if (placementSpotPrefab != null)
+        // Determine which placement spot prefab to use
+        GameObject currentPlacementSpotPrefab = _currentMapData.mapSpecificPlacementSpotPrefab != null ? _currentMapData.mapSpecificPlacementSpotPrefab : placementSpotPrefab;
+        if (currentPlacementSpotPrefab != null)
         {
             foreach (Vector3 pos in _currentMapData.heroPlacementSpots)
             {
-                GameObject spot = Instantiate(placementSpotPrefab, pos, Quaternion.identity);
+                GameObject spot = Instantiate(currentPlacementSpotPrefab, pos, Quaternion.identity);
                 spot.name = "Placement Spot";
                 _placementSpotInstances.Add(spot);
             }
         }
         else if (_currentMapData.heroPlacementSpots.Count > 0)
         {
-            Debug.LogWarning("Placement Spot Prefab not assigned. Placement spots will not be instantiated.");
+            Debug.LogWarning("Placement Spot Prefab not assigned in MapManager or MapData. Placement spots will not be instantiated.");
+        }
+
+        // Instantiate Path Visual (if specified)
+        GameObject currentPathPrefab = _currentMapData.mapSpecificPathPrefab;
+        if (currentPathPrefab != null)
+        {
+            Vector3 start = _currentMapData.monsterStartPoint;
+            Vector3 end = _currentMapData.monsterEndPoint;
+
+            // Calculate direction and distance
+            Vector3 direction = (end - start).normalized;
+            float distance = Vector3.Distance(start, end);
+
+            // Instantiate the path prefab at the start point
+            _pathInstance = Instantiate(currentPathPrefab, start, Quaternion.identity);
+            _pathInstance.name = "Monster Path Visual";
+
+            // Position the path prefab correctly
+            // Assuming the prefab's forward (Z-axis) points along the path
+            _pathInstance.transform.position = start + (end - start) / 2f; // Center the path
+            _pathInstance.transform.rotation = Quaternion.LookRotation(direction); // Rotate to face end point
+            _pathInstance.transform.localScale = new Vector3(_pathInstance.transform.localScale.x, _pathInstance.transform.localScale.y, distance); // Stretch along Z
+
+            // If it's a 2D game, you might need to adjust the rotation for 2D sprites
+            // For 2D, you might want to rotate around the Z-axis
+            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // _pathInstance.transform.rotation = Quaternion.Euler(0, 0, angle);
+            // _pathInstance.transform.localScale = new Vector3(distance, _pathInstance.transform.localScale.y, _pathInstance.transform.localScale.z);
         }
 
         Debug.Log($"Map '{_currentMapData.mapName}' loaded successfully.");
@@ -150,5 +181,8 @@ public class MapManager : MonoBehaviour
 
         _barrierInstances.Clear();
         _placementSpotInstances.Clear();
+
+        // Clear path instances if any
+        if (_pathInstance != null) Destroy(_pathInstance);
     }
 }
