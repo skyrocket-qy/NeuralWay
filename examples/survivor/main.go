@@ -1730,22 +1730,107 @@ func (g *Game) freeDamageNumber(d *DamageNumber) {
 	g.unusedDmg = append(g.unusedDmg, d)
 }
 
+// removeBackground removes the background color from sprite images using chroma key.
+// This follows the standard 16-bit game development convention where specific colors
+// are designated as "transparent" and removed during rendering.
+//
+// Standard Chroma Key Colors (16-bit RGB 5-6-5 format):
+// | Color Name     | Hex (8-bit) | Hex (5-6-5) | Binary (5-6-5)      |
+// |----------------|-------------|-------------|---------------------|
+// | Pure Magenta   | #FF00FF     | $F81F       | 11111 000000 11111  |
+// | Bright Green   | #00FF00     | $07E0       | 00000 111111 00000  |
+// | Pure Black     | #000000     | $0000       | 00000 000000 00000  |
+//
+// Pure Magenta (#FF00FF) is the most common choice because it rarely appears
+// naturally in game sprites. This function removes magenta pixels and also
+// falls back to edge-detection for images without a magenta background.
 func removeBackground(src image.Image) image.Image {
 	bounds := src.Bounds()
 	dst := image.NewRGBA(bounds)
 	draw.Draw(dst, bounds, src, bounds.Min, draw.Src)
 
-	bg := src.At(bounds.Min.X, bounds.Min.Y)
-	br, bg_g, bb, _ := bg.RGBA()
+	// Standard chroma key colors (in 16-bit values from RGBA())
+	// RGBA() returns 16-bit values (0-65535), so:
+	// - Pure Magenta #FF00FF = R:65535, G:0, B:65535
+	// - Bright Green #00FF00 = R:0, G:65535, B:0
+	const (
+		magentaR     uint32 = 65535
+		magentaG     uint32 = 0
+		magentaB     uint32 = 65535
+		keyThreshold        = 8000 // Tolerance for compression artifacts
+	)
 
-	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+	// First pass: try to detect if image uses standard magenta key
+	hasMagentaKey := false
+	c := src.At(bounds.Min.X, bounds.Min.Y)
+	r, g, b, _ := c.RGBA()
+	if abs(int(r)-int(magentaR)) < 5000 && g < 5000 && abs(int(b)-int(magentaB)) < 5000 {
+		hasMagentaKey = true
+	}
+
+	if hasMagentaKey {
+		// Use standard magenta chroma key removal
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			for x := bounds.Min.X; x < bounds.Max.X; x++ {
+				c := dst.At(x, y)
+				r, g, b, _ := c.RGBA()
+
+				// Check if pixel is close to magenta
+				if abs(int(r)-int(magentaR)) < int(keyThreshold) &&
+					g < keyThreshold &&
+					abs(int(b)-int(magentaB)) < int(keyThreshold) {
+					dst.Set(x, y, color.Transparent)
+				}
+			}
+		}
+	} else {
+		// Fallback: sample background from edges and remove similar colors
+		var avgR, avgG, avgB uint64
+		var count uint64
+
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-			c := dst.At(x, y)
+			c := src.At(x, bounds.Min.Y)
 			r, g, b, _ := c.RGBA()
+			avgR += uint64(r)
+			avgG += uint64(g)
+			avgB += uint64(b)
+			count++
 
-			d := abs(int(r)-int(br)) + abs(int(g)-int(bg_g)) + abs(int(b)-int(bb))
-			if d < 3000 { // Small threshold for compression artifacts
-				dst.Set(x, y, color.Transparent)
+			c = src.At(x, bounds.Max.Y-1)
+			r, g, b, _ = c.RGBA()
+			avgR += uint64(r)
+			avgG += uint64(g)
+			avgB += uint64(b)
+			count++
+		}
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			c := src.At(bounds.Min.X, y)
+			r, g, b, _ := c.RGBA()
+			avgR += uint64(r)
+			avgG += uint64(g)
+			avgB += uint64(b)
+			count++
+
+			c = src.At(bounds.Max.X-1, y)
+			r, g, b, _ = c.RGBA()
+			avgR += uint64(r)
+			avgG += uint64(g)
+			avgB += uint64(b)
+			count++
+		}
+		avgR /= count
+		avgG /= count
+		avgB /= count
+
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			for x := bounds.Min.X; x < bounds.Max.X; x++ {
+				c := dst.At(x, y)
+				r, g, b, _ := c.RGBA()
+
+				d := abs(int(r)-int(avgR)) + abs(int(g)-int(avgG)) + abs(int(b)-int(avgB))
+				if d < 35000 {
+					dst.Set(x, y, color.Transparent)
+				}
 			}
 		}
 	}
