@@ -1,4 +1,66 @@
-Building a game engine from scratch in Go while using an ECS is a high-level learning path that satisfies all your criteria. If you want to do it yourself to truly learn, you should adopt the "Library-First" approach. This means using specialized Go libraries for low-level heavy lifting (like drawing pixels or playing sound) while building the "Engine" (the ECS, the game loop, the scene management) entirely by yourself.The Architect's Blueprint: Go + Ebitengine + DonburiThis stack is currently the best for 100% code-driven, AI-friendly development because it lacks any visual editor that could "hide" state from an AI.RequirementHow this stack solves it1. AI FriendlyDonburi uses Go Generics. AI can write a "System" as a simple function that iterates over components, which is much more reliable for LLMs than complex class inheritance.2. Code-OnlyEbitengine has zero GUI. Every sprite, shader, and collision rule is defined in a .go file, giving the AI 100% context.3. Multi-platformEbitengine handles the cross-compilation. You write once, and it compiles to Windows, Mac, Linux, iOS, Android, and WebAssembly (WASM).4. PerformanceDonburi is an "archetype-based" ECS. It packs data tightly in memory, which is essential for complex simulations with thousands of entities.5. Any Game TypeWhile Ebitengine is 2D-focused, its "everything is an image" philosophy and custom Kage shader support allow for advanced 2.5D or specialized 3D effects.Step-by-Step "Learning by Doing" PathTo learn "from scratch" while still being productive, follow this sequence:Phase 1: The Core LoopDon't build a game yet. Build a loop. Use Ebitengine's Update and Draw methods. Learn how "Delta Time" works and how to maintain a steady 60 FPS.Phase 2: Implementing the ECS (Donburi)Instead of making a Player struct, make a Position and Velocity component.The Learning Goal: Understand data-oriented design.Vibe-Coding Tip: Ask the AI: "Explain how to create a Donburi world and add an entity with multiple components in Go."Phase 3: Systems as LogicWrite "Systems" that only care about specific data. A MovementSystem shouldn't care if an entity is a player or an enemy; it should only care if it has Position and Velocity.Phase 4: Cross-Platform DeploymentLearn how to use gomobile to package your Go code for a phone. This is a critical skill for modern developers that most "click-up" engines hide from you.Getting Started: Your First "Vibe" ScriptTo begin your journey, initialize a new Go module and install the dependencies:Bashgo mod init my-cool-game
-go get github.com/hajimehoshi/ebiten/v2
-go get github.com/yohamta/donburi
-Then, you can use this as your foundational prompt for the AI to help you build out the engine:"I am building a game engine from scratch using Go, Ebitengine, and Donburi ECS. Help me structure a main.go file that initializes a Donburi world, creates a basic 'RenderSystem' that draws all entities with a 'Sprite' component, and sets up the Ebitengine Game interface."Architecture of the Ebitengine Game EngineThis video is an excellent starting point for your journey, as it explains the internal architecture of Ebitengine and how its simple, code-first design allows you to build complex systems without the overhead of a traditional visual engine.
+# 2D Pixel Tower Defense
+
+A Diablo-like TD(Tower Defense) game.
+
+## Possible Features
+- Multi player(cooperate, against)
+- Workshop
+
+## Steps
+1. Select the TD map
+2. deploy the heroes to the place
+3. start the game
+
+## Game mechanism
+- Monster will keep find the shortest path to end
+- if in the hero range, hero will attack monster
+- the end has life
+- if monster reach the end, the life will reduce - 1
+- if end life == 0, game over
+- if all monsters killed, win
+
+## Recent Updates & New Mechanisms
+
+### 1. Player Data Loading from JSON
+The `Player.cs` script now loads hero data from a JSON file instead of a plain text file.
+*   **File:** `Assets/Scripts/Player.cs`
+*   **Setup:**
+    1.  Create a `hero_data.json` file in your `Resources` folder (e.g., `Assets/Resources/hero_data.json`).
+    2.  Populate it with hero names in the following JSON format:
+        ```json
+        {
+            "heroNames": [
+                "Hero1Map",
+                "Hero2Map",
+                "AnotherHeroMap"
+            ]
+        }
+        ```
+
+### 2. Rogue-like Card System (Data Structure)
+A new ScriptableObject `CardData` has been introduced to define the properties of cards that can be offered to the player.
+*   **File:** `Assets/Scripts/Progression/CardData.cs`
+*   **Usage:**
+    1.  In Unity, go to `Assets -> Create -> Game -> Card Data` to create new card assets.
+    2.  Fill in the `cardName`, `description`, `icon`, `effectType`, and `effectValue` for each card.
+    3.  The `ApplyEffect` method in `CardData.cs` is a placeholder for implementing the card's actual effect on the `Player` or `Hero`.
+
+### 3. Hero Experience & Leveling System
+Heroes now have an experience and leveling progression system.
+*   **File:** `Assets/Scripts/Hero.cs`
+*   **Details:**
+    *   Each `Hero` instance tracks `currentExperience`, `experienceToNextLevel`, and `level`.
+    *   The `GainExperience(int amount)` method handles experience accumulation and triggers `LevelUp()` when enough experience is gained.
+    *   `LevelUp()` increases the hero's level, adjusts `currentExperience`, and recalculates `experienceToNextLevel`.
+
+### 4. Wave-based Experience Distribution
+The `GameManager` now tracks monster deaths and awards experience to active heroes upon wave completion.
+*   **Files:** `Assets/Scripts/Enemies/Monster.cs`, `Assets/Scripts/GameManager.cs`
+*   **How it works:**
+    1.  `Monster.cs` now includes a `public static event Action<Monster> OnMonsterDied;` which is invoked when a monster is defeated.
+    2.  `GameManager.cs` subscribes to this event.
+    3.  `GameManager` maintains a list of `activeMonsters` for the current wave.
+    4.  When `GenMonster()` is called, the new monster is added to `activeMonsters`.
+    5.  When `Monster.OnMonsterDied` is triggered, `GameManager` removes the monster from `activeMonsters`.
+    6.  The `StartWaves()` coroutine now waits until all monsters for the current wave have been *generated* AND all `activeMonsters` have been *defeated*.
+    7.  Once a wave is cleared, `GameManager` calls `AwardExperienceToHeroes()`, which finds all active `Hero` components and calls their `GainExperience()` method with the `currentWaveExperience` (a public variable in `GameManager` that can be set in the Inspector).

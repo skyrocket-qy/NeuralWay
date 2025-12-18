@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Defense - AI ECS Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #e8e8e8;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        #game-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 40px rgba(123, 47, 247, 0.3);
+        }
+        
+        canvas {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #7b2ff7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        #loading.hidden {
+            display: none;
+        }
+        
+        .controls {
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .controls p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        kbd {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        #error {
+            display: none;
+            color: #ff6b6b;
+            padding: 1rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Tower Defense</h1>
+    
+    <div id="game-container">
+        <div id="loading">
+            <div class="spinner"></div>
+            <p>Loading game...</p>
+        </div>
+        <canvas id="game"></canvas>
+    </div>
+    
+    <div class="controls">
+        <p><kbd>WASD</kbd> or <kbd>Arrow Keys</kbd> - Move</p>
+        <p><kbd>Mouse</kbd> - Aim & Shoot</p>
+        <p><kbd>ESC</kbd> - Pause</p>
+    </div>
+    
+    <div id="error"></div>
+    
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        const loading = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        
+        async function init() {
+            try {
+                const response = await fetch('game.wasm');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch WASM: ${response.status}`);
+                }
+                
+                const result = await WebAssembly.instantiateStreaming(response, go.importObject);
+                loading.classList.add('hidden');
+                
+                // Run the Go WASM
+                go.run(result.instance);
+            } catch (err) {
+                loading.classList.add('hidden');
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = `Error loading game: ${err.message}`;
+                console.error('WASM load error:', err);
+            }
+        }
+        
+        init();
+    </script>
+</body>
+</html>
