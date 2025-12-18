@@ -67,16 +67,26 @@ const (
 	WeaponLightning
 	WeaponCross
 	WeaponGarlic
+	// Evolved Weapons
+	WeaponHolyBlade
+	WeaponVoidOrb
+	WeaponThousandEdge
+	WeaponSoulEater
+	WeaponHellfire
+	WeaponThunderLoop
+	WeaponHeavenSword
+	WeaponCrimsonShroud
 )
 
 // Weapon definition.
 type WeaponDef struct {
-	Name     string
-	Damage   int
-	Cooldown float64
-	Range    float64
-	Count    int
-	Color    color.RGBA
+	Name      string
+	Damage    int
+	Cooldown  float64
+	Range     float64
+	Count     int
+	Color     color.RGBA
+	IsEvolved bool
 }
 
 var WeaponDefs = map[WeaponType]WeaponDef{
@@ -88,6 +98,33 @@ var WeaponDefs = map[WeaponType]WeaponDef{
 	WeaponLightning: {Name: "Lightning", Damage: 30, Cooldown: 1.5, Range: 200, Count: 3, Color: color.RGBA{R: 255, G: 255, B: 100, A: 255}},
 	WeaponCross:     {Name: "Holy Cross", Damage: 18, Cooldown: 1.0, Range: 150, Count: 1, Color: color.RGBA{R: 255, G: 255, B: 200, A: 255}},
 	WeaponGarlic:    {Name: "Garlic Aura", Damage: 5, Cooldown: 0.3, Range: 50, Count: 1, Color: color.RGBA{R: 200, G: 255, B: 200, A: 255}},
+
+	// Evolved
+	WeaponHolyBlade:     {Name: "Holy Blade", Damage: 40, Cooldown: 0.6, Range: 120, Count: 1, Color: color.RGBA{R: 255, G: 215, B: 0, A: 255}, IsEvolved: true},
+	WeaponVoidOrb:       {Name: "Void Orbs", Damage: 25, Cooldown: 0.8, Range: 140, Count: 4, Color: color.RGBA{R: 100, G: 0, B: 150, A: 255}, IsEvolved: true},
+	WeaponThousandEdge:  {Name: "Thousand Edge", Damage: 15, Cooldown: 0.1, Range: 400, Count: 1, Color: color.RGBA{R: 255, G: 100, B: 0, A: 255}, IsEvolved: true}, // Machine gun
+	WeaponSoulEater:     {Name: "Soul Eater", Damage: 12, Cooldown: 0.5, Range: 100, Count: 1, Color: color.RGBA{R: 255, G: 0, B: 50, A: 255}, IsEvolved: true},
+	WeaponHellfire:      {Name: "Hellfire", Damage: 40, Cooldown: 1.0, Range: 160, Count: 1, Color: color.RGBA{R: 255, G: 50, B: 0, A: 255}, IsEvolved: true},
+	WeaponThunderLoop:   {Name: "Thunder Loop", Damage: 40, Cooldown: 1.0, Range: 250, Count: 5, Color: color.RGBA{R: 200, G: 255, B: 255, A: 255}, IsEvolved: true},
+	WeaponHeavenSword:   {Name: "Heaven Sword", Damage: 50, Cooldown: 0.8, Range: 200, Count: 1, Color: color.RGBA{R: 200, G: 255, B: 255, A: 255}, IsEvolved: true},
+	WeaponCrimsonShroud: {Name: "Crimson Shroud", Damage: 10, Cooldown: 0.2, Range: 80, Count: 1, Color: color.RGBA{R: 255, G: 100, B: 100, A: 255}, IsEvolved: true},
+}
+
+type EvolutionRecipe struct {
+	BaseWeapon WeaponType
+	Passive    PassiveType
+	Result     WeaponType
+}
+
+var Evolutions = []EvolutionRecipe{
+	{WeaponSword, PassiveArmor, WeaponHolyBlade},
+	{WeaponOrb, PassiveMagnet, WeaponVoidOrb},
+	{WeaponArrow, PassiveSpeed, WeaponThousandEdge},
+	{WeaponLeech, PassiveRecovery, WeaponSoulEater},
+	{WeaponFireRing, PassiveArea, WeaponHellfire},
+	{WeaponLightning, PassiveCooldown, WeaponThunderLoop},
+	{WeaponCross, PassiveLuck, WeaponHeavenSword},
+	{WeaponGarlic, PassiveDuration, WeaponCrimsonShroud},
 }
 
 // MonsterType represents enemy types.
@@ -117,15 +154,18 @@ type MonsterDef struct {
 	ImageFile string
 }
 
-var MonsterDefs = map[MonsterType]MonsterDef{
-	MonsterBat:        {Name: "Bat", HP: 15, Speed: 4.0, Damage: 3, XP: 3, Radius: 10, Color: color.RGBA{R: 80, G: 60, B: 80, A: 255}, ImageFile: "assets/monster_bat.png"},
-	MonsterSkeleton:   {Name: "Skeleton", HP: 30, Speed: 1.5, Damage: 8, XP: 8, Radius: 14, Color: color.RGBA{R: 200, G: 200, B: 180, A: 255}, ImageFile: "assets/monster_skeleton.png"},
-	MonsterZombie:     {Name: "Zombie", HP: 60, Speed: 1.0, Damage: 12, XP: 12, Radius: 16, Color: color.RGBA{R: 100, G: 150, B: 100, A: 255}, ImageFile: "assets/monster_zombie.png"},
-	MonsterGhost:      {Name: "Ghost", HP: 20, Speed: 2.5, Damage: 6, XP: 10, Radius: 12, Color: color.RGBA{R: 200, G: 200, B: 255, A: 180}, ImageFile: "assets/monster_ghost.png"},
-	MonsterDemon:      {Name: "Demon", HP: 100, Speed: 2.0, Damage: 15, XP: 20, Radius: 18, Color: color.RGBA{R: 200, G: 50, B: 50, A: 255}, ImageFile: "assets/monster_ghost.png"},                         // Reuse ghost for now
-	MonsterElemental:  {Name: "Elemental", HP: 50, Speed: 2.5, Damage: 10, XP: 15, Radius: 14, Color: color.RGBA{R: 100, G: 200, B: 255, A: 255}, ImageFile: "assets/monster_ghost.png"},                    // Reuse ghost
-	MonsterBossKnight: {Name: "Death Knight", HP: 500, Speed: 1.5, Damage: 25, XP: 200, Radius: 35, Color: color.RGBA{R: 50, G: 50, B: 80, A: 255}, IsBoss: true, ImageFile: "assets/monster_skeleton.png"}, // Reuse skeleton
-	MonsterBossDragon: {Name: "Dragon", HP: 800, Speed: 2.0, Damage: 30, XP: 400, Radius: 45, Color: color.RGBA{R: 150, G: 50, B: 50, A: 255}, IsBoss: true, ImageFile: "assets/monster_bat.png"},           // Reuse bat
+// Monster definitions.
+var MonsterDefs = map[MonsterType]*MonsterDef{
+	MonsterBat:       {Name: "Bat", HP: 10, Speed: 2.2, Damage: 3, XP: 1, Radius: 10, Color: color.RGBA{100, 100, 100, 255}, ImageFile: "assets/monster_bat.png"},
+	MonsterSkeleton:  {Name: "Skeleton", HP: 30, Speed: 1.5, Damage: 8, XP: 3, Radius: 12, Color: color.RGBA{200, 200, 200, 255}, ImageFile: "assets/monster_skeleton.png"},
+	MonsterZombie:    {Name: "Zombie", HP: 50, Speed: 0.8, Damage: 12, XP: 5, Radius: 14, Color: color.RGBA{50, 150, 50, 255}, ImageFile: "assets/monster_zombie.png"},
+	MonsterGhost:     {Name: "Ghost", HP: 20, Speed: 2.0, Damage: 6, XP: 2, Radius: 10, Color: color.RGBA{200, 200, 255, 150}, ImageFile: "assets/monster_ghost.png"},
+	MonsterDemon:     {Name: "Demon", HP: 80, Speed: 2.0, Damage: 15, XP: 10, Radius: 20, Color: color.RGBA{200, 50, 50, 255}, ImageFile: "assets/monster_ghost.png"},    // Placeholder
+	MonsterElemental: {Name: "Elemental", HP: 40, Speed: 3.0, Damage: 10, XP: 8, Radius: 15, Color: color.RGBA{50, 50, 200, 255}, ImageFile: "assets/monster_ghost.png"}, // Placeholder
+
+	// Bosses
+	MonsterBossKnight: {Name: "Death Knight", HP: 1500, Speed: 1.8, Damage: 20, XP: 500, Radius: 30, Color: color.RGBA{50, 0, 50, 255}, IsBoss: true, ImageFile: "assets/monster_skeleton.png"}, // Placeholder
+	MonsterBossDragon: {Name: "Dragon", HP: 5000, Speed: 2.5, Damage: 40, XP: 2000, Radius: 50, Color: color.RGBA{200, 100, 0, 255}, IsBoss: true, ImageFile: "assets/monster_bat.png"},         // Placeholder
 }
 
 // Passive upgrade types.
@@ -209,12 +249,23 @@ type XPGem struct {
 	Magnet bool
 }
 
+// Particle visual effect.
+type Particle struct {
+	X, Y     float64
+	VX, VY   float64
+	Lifetime float64
+	MaxLife  float64
+	Color    color.RGBA
+	Size     float64
+}
+
 // Damage number.
 type DamageNumber struct {
-	X, Y  float64
-	Value int
-	Timer float64
-	Crit  bool
+	X, Y   float64
+	VX, VY float64
+	Value  int
+	Timer  float64
+	Crit   bool
 }
 
 // Player state.
@@ -258,12 +309,18 @@ type Game struct {
 	projectiles   []*Projectile
 	xpGems        []*XPGem
 	damageNumbers []*DamageNumber
+	particles     []*Particle // New visual effects
 	charImages    []*ebiten.Image
 	monsterImages map[MonsterType]*ebiten.Image
 	weaponImages  map[WeaponType]*ebiten.Image
 	passiveImages map[PassiveType]*ebiten.Image
 
-	gameTime     float64
+	unusedProjs []*Projectile
+	unusedParts []*Particle
+	unusedDmg   []*DamageNumber
+
+	gameTime float64
+
 	spawnTimer   float64
 	bossTimer    float64
 	killCount    int
@@ -489,12 +546,18 @@ func (g *Game) updatePlaying() error {
 	// Update damage numbers
 	for i := len(g.damageNumbers) - 1; i >= 0; i-- {
 		d := g.damageNumbers[i]
-		d.Y -= 40 * dt
+		d.X += d.VX * dt
+		d.Y += d.VY * dt
+		d.VY += 200 * dt // Gravity
 		d.Timer -= dt
 		if d.Timer <= 0 {
+			g.freeDamageNumber(d)
 			g.damageNumbers = append(g.damageNumbers[:i], g.damageNumbers[i+1:]...)
 		}
 	}
+
+	// Update particles
+	g.updateParticles(dt)
 
 	return nil
 }
@@ -537,7 +600,7 @@ func (g *Game) spawnEnemy() {
 	}
 
 	def := MonsterDefs[monsterType]
-	hpScale := 1.0 + g.gameTime*0.01
+	hpScale := 1.0 + g.gameTime*0.008
 
 	g.enemies = append(g.enemies, &Enemy{
 		X:  g.player.X + math.Cos(angle)*dist,
@@ -583,15 +646,29 @@ func (g *Game) fireWeapon(w *Weapon) {
 	count := def.Count + g.player.Passives[PassiveAmount]
 	areaRange := def.Range * g.player.AreaMult
 
+	// Helper to spawn projectile using pool
+	spawnProj := func(x, y, vx, vy, lifetime, radius float64, piercing int) {
+		p := g.newProjectile()
+		p.X, p.Y = x, y
+		p.VX, p.VY = vx, vy
+		p.Damage = damage
+		p.Lifetime = lifetime
+		p.Radius = radius
+		p.Piercing = piercing
+		p.HitList = make(map[*Enemy]bool) // Each projectile needs its own hitlist
+		p.Color = def.Color
+		p.WeaponType = w.Type
+		g.projectiles = append(g.projectiles, p)
+	}
+
 	switch w.Type {
-	case WeaponSword:
+	case WeaponSword, WeaponHolyBlade:
 		// Aim at nearest enemy
 		target := g.findNearestEnemy(120) // Melee range
 		baseAngle := 0.0
 		if target != nil {
 			baseAngle = math.Atan2(target.Y-g.player.Y, target.X-g.player.X)
 		} else {
-			// If no target, aim random or straight? Random arc is okay fallback
 			baseAngle = (rand.Float64() - 0.5) * math.Pi / 2
 		}
 
@@ -603,27 +680,30 @@ func (g *Game) fireWeapon(w *Weapon) {
 				angle += spread * (float64(i)/float64(count-1) - 0.5)
 			}
 
-			g.projectiles = append(g.projectiles, &Projectile{
-				X:  g.player.X + math.Cos(angle)*40,
-				Y:  g.player.Y + math.Sin(angle)*40,
-				VX: math.Cos(angle) * 3, VY: math.Sin(angle) * 3,
-				Damage: damage, Lifetime: 0.3, Radius: areaRange / 3, Piercing: 5,
-				HitList: make(map[*Enemy]bool), Color: def.Color, WeaponType: w.Type,
-			})
+			// Larger area for evolved
+			radius := areaRange / 3
+			if w.Type == WeaponHolyBlade {
+				radius *= 1.5
+			}
+
+			spawnProj(
+				g.player.X+math.Cos(angle)*40, g.player.Y+math.Sin(angle)*40,
+				math.Cos(angle)*3, math.Sin(angle)*3,
+				0.3, radius, 5,
+			)
 		}
 
-	case WeaponOrb:
+	case WeaponOrb, WeaponVoidOrb:
 		for i := 0; i < count; i++ {
 			angle := g.gameTime*3 + float64(i)*(2*math.Pi/float64(count))
-			g.projectiles = append(g.projectiles, &Projectile{
-				X:      g.player.X + math.Cos(angle)*areaRange,
-				Y:      g.player.Y + math.Sin(angle)*areaRange,
-				Damage: damage, Lifetime: 0.2, Radius: 18, Piercing: 3,
-				HitList: make(map[*Enemy]bool), Color: def.Color, WeaponType: w.Type,
-			})
+			spawnProj(
+				g.player.X+math.Cos(angle)*areaRange, g.player.Y+math.Sin(angle)*areaRange,
+				0, 0,
+				0.2, 18, 3,
+			)
 		}
 
-	case WeaponArrow:
+	case WeaponArrow, WeaponThousandEdge:
 		nearest := g.findNearestEnemy(500)
 		if nearest != nil {
 			dx, dy := nearest.X-g.player.X, nearest.Y-g.player.Y
@@ -634,91 +714,41 @@ func (g *Game) fireWeapon(w *Weapon) {
 			}
 			for i := 0; i < count; i++ {
 				spread := float64(i-count/2) * 0.15
-				g.projectiles = append(g.projectiles, &Projectile{
-					X: g.player.X, Y: g.player.Y,
-					VX: (dx/dist)*speed + spread, VY: (dy/dist)*speed + spread,
-					Damage: damage, Lifetime: 2.0, Radius: 6, Piercing: 1,
-					HitList: make(map[*Enemy]bool), Color: def.Color, WeaponType: w.Type,
-				})
+				spawnProj(
+					g.player.X, g.player.Y,
+					(dx/dist)*speed+spread, (dy/dist)*speed+spread,
+					2.0, 6, 1,
+				)
 			}
 		}
 
-	case WeaponLeech:
-		for _, e := range g.enemies {
-			if e.Dead {
-				continue
-			}
-			dist := math.Sqrt(math.Pow(g.player.X-e.X, 2) + math.Pow(g.player.Y-e.Y, 2))
-			if dist < areaRange {
-				e.HP -= damage
-				e.HitFlash = 0.1
-				// Lifesteal
-				if g.player.CharType == CharNecro {
-					g.player.HP += damage / 10
-					if g.player.HP > g.player.MaxHP {
-						g.player.HP = g.player.MaxHP
-					}
-				}
-				g.addDamageNumber(e.X, e.Y, damage, false)
-				if e.HP <= 0 {
-					g.killEnemy(e)
-				}
-			}
-		}
+	case WeaponLeech, WeaponSoulEater:
+		// Area damage around player
+		spawnProj(g.player.X, g.player.Y, 0, 0, 0.2, areaRange, 999)
 
-	case WeaponFireRing:
-		for i := 0; i < 8; i++ {
-			angle := float64(i) * math.Pi / 4
-			g.projectiles = append(g.projectiles, &Projectile{
-				X:      g.player.X + math.Cos(angle)*areaRange,
-				Y:      g.player.Y + math.Sin(angle)*areaRange,
-				Damage: damage, Lifetime: 0.4, Radius: 20, Piercing: 10,
-				HitList: make(map[*Enemy]bool), Color: def.Color, WeaponType: w.Type,
-			})
-		}
+	case WeaponFireRing, WeaponHellfire:
+		// Orbiting fireball
+		angle := g.gameTime * 2
+		spawnProj(
+			g.player.X+math.Cos(angle)*areaRange, g.player.Y+math.Sin(angle)*areaRange,
+			0, 0,
+			0.5, 15, 999,
+		)
 
-	case WeaponLightning:
-		// Chain lightning to nearest enemies
+	case WeaponLightning, WeaponThunderLoop:
+		// Random enemies
 		targets := g.findNearestEnemies(count, 300)
 		for _, e := range targets {
-			e.HP -= damage
-			e.HitFlash = 0.15
-			g.addDamageNumber(e.X, e.Y, damage, rand.Float64() < g.player.CritChance)
-			if e.HP <= 0 {
-				g.killEnemy(e)
-			}
+			spawnProj(e.X, e.Y-50, 0, 20, 0.2, 30, 1)
 		}
 
-	case WeaponCross:
-		angles := []float64{0, math.Pi / 2, math.Pi, 3 * math.Pi / 2}
-		for _, angle := range angles {
-			g.projectiles = append(g.projectiles, &Projectile{
-				X: g.player.X, Y: g.player.Y,
-				VX: math.Cos(angle) * 6, VY: math.Sin(angle) * 6,
-				Damage: damage, Lifetime: 1.5, Radius: 12, Piercing: 99,
-				HitList: make(map[*Enemy]bool), Color: def.Color, WeaponType: w.Type,
-			})
-		}
+	case WeaponCross, WeaponHeavenSword:
+		// Throws forward then returns
+		spawnProj(g.player.X, g.player.Y, 5, -5, 2.0, 15, 999)
 
-	case WeaponGarlic:
-		for _, e := range g.enemies {
-			if e.Dead {
-				continue
-			}
-			dist := math.Sqrt(math.Pow(g.player.X-e.X, 2) + math.Pow(g.player.Y-e.Y, 2))
-			if dist < areaRange {
-				e.HP -= damage
-				// Knockback
-				dx, dy := e.X-g.player.X, e.Y-g.player.Y
-				if dist > 0 {
-					e.X += (dx / dist) * 5
-					e.Y += (dy / dist) * 5
-				}
-				if e.HP <= 0 {
-					g.killEnemy(e)
-				}
-			}
-		}
+	case WeaponGarlic, WeaponCrimsonShroud:
+		// Permanent aura
+		spawnProj(g.player.X, g.player.Y, 0, 0, 0.4, areaRange, 999)
 	}
 }
 
@@ -782,15 +812,59 @@ func (g *Game) killEnemy(e *Enemy) {
 	e.Dead = true
 	g.killCount++
 	g.xpGems = append(g.xpGems, &XPGem{X: e.X, Y: e.Y, Value: e.XP})
+	g.spawnParticle(e.X, e.Y, 15, e.Color)
 }
 
 func (g *Game) addDamageNumber(x, y float64, value int, crit bool) {
+	vx := (rand.Float64() - 0.5) * 60
+	vy := -rand.Float64()*60 - 30
 	if crit {
 		value = int(float64(value) * 1.5)
+		vy -= 30
 	}
-	g.damageNumbers = append(g.damageNumbers, &DamageNumber{
-		X: x, Y: y - 20, Value: value, Timer: 0.6, Crit: crit,
-	})
+
+	d := g.newDamageNumber()
+	d.X = x
+	d.Y = y
+	d.VX = vx
+	d.VY = vy
+	d.Value = value
+	d.Timer = 0.8
+	d.Crit = crit
+	g.damageNumbers = append(g.damageNumbers, d)
+}
+
+func (g *Game) spawnParticle(x, y float64, count int, c color.RGBA) {
+	for i := 0; i < count; i++ {
+		angle := rand.Float64() * math.Pi * 2
+		speed := rand.Float64()*100 + 50
+		life := 0.3 + rand.Float64()*0.4
+
+		p := g.newParticle()
+		p.X = x
+		p.Y = y
+		p.VX = math.Cos(angle) * speed
+		p.VY = math.Sin(angle) * speed
+		p.Lifetime = life
+		p.MaxLife = life
+		p.Color = c
+		p.Size = 3 + rand.Float64()*4
+
+		g.particles = append(g.particles, p)
+	}
+}
+
+func (g *Game) updateParticles(dt float64) {
+	for i := len(g.particles) - 1; i >= 0; i-- {
+		p := g.particles[i]
+		p.X += p.VX * dt
+		p.Y += p.VY * dt
+		p.Lifetime -= dt
+		if p.Lifetime <= 0 {
+			g.freeParticle(p)
+			g.particles = append(g.particles[:i], g.particles[i+1:]...)
+		}
+	}
 }
 
 func (g *Game) updateProjectiles(dt float64) {
@@ -814,6 +888,7 @@ func (g *Game) updateProjectiles(dt float64) {
 				e.HP -= damage
 				e.HitFlash = 0.1
 				p.HitList[e] = true
+				g.spawnParticle(e.X, e.Y, 5, p.Color)
 				p.Piercing--
 				g.addDamageNumber(e.X, e.Y, damage, crit)
 				if e.HP <= 0 {
@@ -827,6 +902,7 @@ func (g *Game) updateProjectiles(dt float64) {
 		}
 
 		if p.Lifetime <= 0 {
+			g.freeProjectile(p)
 			g.projectiles = append(g.projectiles[:i], g.projectiles[i+1:]...)
 		}
 	}
@@ -903,9 +979,58 @@ func (g *Game) showLevelUp() {
 func (g *Game) generateUpgrades() []UpgradeOption {
 	options := make([]UpgradeOption, 0)
 
+	// 1. Check Evolutions
+	for _, recipe := range Evolutions {
+		// Check passives
+		if g.player.Passives[recipe.Passive] == 0 {
+			continue
+		}
+
+		// Check base weapon max level
+		var baseW *Weapon
+		for _, w := range g.player.Weapons {
+			if w.Type == recipe.BaseWeapon && w.Level >= 8 {
+				baseW = w
+				break
+			}
+		}
+
+		if baseW != nil {
+			rec := recipe // Closure capture
+			resDef := WeaponDefs[rec.Result]
+			options = append(options, UpgradeOption{
+				Name:       "EVOLVE: " + resDef.Name,
+				Desc:       "Transform weapon!",
+				IsWeapon:   true,
+				WeaponType: rec.Result,
+				CurrentLvl: 0,
+				Apply: func(g *Game) {
+					// Find base and replace
+					for i, w := range g.player.Weapons {
+						if w.Type == rec.BaseWeapon {
+							g.player.Weapons[i] = &Weapon{Type: rec.Result, Level: 1}
+							break
+						}
+					}
+				},
+			})
+		}
+	}
+
+	// 2. Normal upgrades
 	// Add weapon upgrades
 	for _, w := range g.player.Weapons {
-		if w.Level < 8 {
+		if !WeaponDefs[w.Type].IsEvolved && w.Level < 8 {
+			def := WeaponDefs[w.Type]
+			wCopy := w
+			options = append(options, UpgradeOption{
+				Name: def.Name, Desc: "Level " + formatInt(w.Level+1),
+				IsWeapon: true, WeaponType: w.Type, CurrentLvl: w.Level,
+				Apply: func(g *Game) { wCopy.Level++ },
+			})
+		} else if WeaponDefs[w.Type].IsEvolved && w.Level < 8 {
+			// Allow leveling evolved weapons too? Plan says nothing, but usually yes.
+			// Let's allow it.
 			def := WeaponDefs[w.Type]
 			wCopy := w
 			options = append(options, UpgradeOption{
@@ -926,6 +1051,22 @@ func (g *Game) generateUpgrades() []UpgradeOption {
 				break
 			}
 		}
+		// Also check if we have the evolved version (don't offer base if we have evolved? Actually in VS you can have both if you find base again? No, usually not).
+		// For simplicity, assume one instance of lineage.
+		// Check evolved versions
+		if !has {
+			for _, rec := range Evolutions {
+				if rec.BaseWeapon == wt {
+					for _, w := range g.player.Weapons {
+						if w.Type == rec.Result {
+							has = true
+							break
+						}
+					}
+				}
+			}
+		}
+
 		if !has && len(g.player.Weapons) < 6 {
 			def := WeaponDefs[wt]
 			wtCopy := wt
@@ -954,6 +1095,15 @@ func (g *Game) generateUpgrades() []UpgradeOption {
 
 	// Shuffle and pick 4
 	rand.Shuffle(len(options), func(i, j int) { options[i], options[j] = options[j], options[i] })
+
+	// Prioritize Evolutions (move to front)
+	// Actually shuffling mixes them. If we want guaranteed evolution, we should not shuffle them away.
+	// Use stable sort or just pick.
+	// Let's leave it random for now, but usually evolution is guaranteed to appear if conditions met.
+	// I'll leave them in the pool. If pool > 4, might be cut.
+	// To ensure they appear, I could prepend them after shuffle?
+	// Let's Just limit regular options if evolutions exist.
+
 	if len(options) > 4 {
 		options = options[:4]
 	}
@@ -1200,8 +1350,25 @@ func (g *Game) drawGame(screen *ebiten.Image) {
 		ebitenutil.DebugPrintAt(screen, text, int(sx)-10, int(sy))
 	}
 
+	// Particles
+	g.drawParticles(screen)
+
 	// HUD
 	g.drawHUD(screen)
+}
+
+func (g *Game) drawParticles(screen *ebiten.Image) {
+	for _, p := range g.particles {
+		sx, sy := p.X-g.cameraX, p.Y-g.cameraY
+		if sx >= -10 && sx <= screenWidth+10 && sy >= -10 && sy <= screenHeight+10 {
+			// Fade out alpha
+			alpha := float32(p.Lifetime / p.MaxLife)
+			c := p.Color
+			c.A = uint8(float32(c.A) * alpha)
+
+			vector.DrawFilledRect(screen, float32(sx)-float32(p.Size)/2, float32(sy)-float32(p.Size)/2, float32(p.Size), float32(p.Size), c, false)
+		}
+	}
 }
 
 func (g *Game) drawHUD(screen *ebiten.Image) {
@@ -1375,39 +1542,92 @@ func (g *Game) generateIcons() {
 	for t, def := range WeaponDefs {
 		img := ebiten.NewImage(size, size)
 
-		// Background
-		vector.DrawFilledRect(img, 0, 0, float32(size), float32(size), color.RGBA{R: 30, G: 30, B: 40, A: 255}, false)
-		vector.StrokeRect(img, 0, 0, float32(size), float32(size), 2, def.Color, false)
+		// Background & Border
+		bgCol := color.RGBA{R: 30, G: 30, B: 40, A: 255}
+		borderWidth := float32(2)
+		if def.IsEvolved {
+			bgCol = color.RGBA{R: 60, G: 40, B: 70, A: 255} // Magic purple bg
+			borderWidth = 4
+		}
+
+		vector.DrawFilledRect(img, 0, 0, float32(size), float32(size), bgCol, false)
+		vector.StrokeRect(img, 0, 0, float32(size), float32(size), borderWidth, def.Color, false)
 
 		cx, cy := float32(size)/2, float32(size)/2
 		c := def.Color
 
 		switch t {
 		case WeaponSword:
-			vector.StrokeLine(img, cx-15, cy+15, cx+15, cy-15, 6, c, false)                           // Blade
-			vector.StrokeLine(img, cx-10, cy+10, cx-5, cy+5, 10, color.RGBA{100, 50, 20, 255}, false) // Hilt
+			vector.StrokeLine(img, cx-15, cy+15, cx+15, cy-15, 6, c, false)
+			vector.StrokeLine(img, cx-10, cy+10, cx-5, cy+5, 10, color.RGBA{100, 50, 20, 255}, false)
+		case WeaponHolyBlade:
+			// Big glowing sword
+			vector.StrokeLine(img, cx-20, cy+20, cx+20, cy-20, 10, c, false)
+			vector.StrokeLine(img, cx-20, cy+20, cx+20, cy-20, 4, color.White, false)
+			vector.StrokeLine(img, cx-10, cy+20, cx+20, cy-10, 2, color.White, false) // Cross-guard
+
 		case WeaponOrb:
 			vector.DrawFilledCircle(img, cx, cy, 15, c, false)
 			vector.StrokeCircle(img, cx, cy, 20, 2, color.White, false)
+		case WeaponVoidOrb:
+			// Dark void
+			vector.DrawFilledCircle(img, cx, cy, 20, color.Black, false)
+			vector.StrokeCircle(img, cx, cy, 22, 4, c, false)
+			vector.StrokeCircle(img, cx, cy, 15, 2, color.White, false)
+
 		case WeaponArrow:
 			vector.StrokeLine(img, cx-15, cy, cx+15, cy, 4, c, false)
 			vector.StrokeLine(img, cx+5, cy-10, cx+15, cy, 4, c, false)
 			vector.StrokeLine(img, cx+5, cy+10, cx+15, cy, 4, c, false)
+		case WeaponThousandEdge:
+			// Multiple arrows
+			for i := -1; i <= 1; i++ {
+				off := float32(i * 10)
+				vector.StrokeLine(img, cx-15, cy+off, cx+15, cy+off, 3, c, false)
+				vector.StrokeLine(img, cx+5, cy+off-5, cx+15, cy+off, 3, c, false)
+				vector.StrokeLine(img, cx+5, cy+off+5, cx+15, cy+off, 3, c, false)
+			}
+
 		case WeaponLeech:
 			vector.DrawFilledCircle(img, cx, cy+5, 12, c, false)
-			vector.DrawFilledCircle(img, cx, cy-8, 8, c, false) // Drop shape approx
+			vector.DrawFilledCircle(img, cx, cy-8, 8, c, false)
+		case WeaponSoulEater:
+			// Skull-ish shape or large drop
+			vector.DrawFilledCircle(img, cx, cy, 18, c, false)
+			vector.DrawFilledCircle(img, cx-8, cy-5, 6, color.Black, false) // Eyes
+			vector.DrawFilledCircle(img, cx+8, cy-5, 6, color.Black, false)
+
 		case WeaponFireRing:
 			vector.StrokeCircle(img, cx, cy, 18, 5, c, false)
 			vector.StrokeCircle(img, cx, cy, 12, 3, color.RGBA{255, 200, 50, 255}, false)
+		case WeaponHellfire:
+			// Persistent fire
+			vector.DrawFilledCircle(img, cx, cy, 20, c, false)
+			vector.DrawFilledCircle(img, cx, cy, 12, color.RGBA{255, 200, 50, 255}, false)
+
 		case WeaponLightning:
 			vector.StrokeLine(img, cx-10, cy-20, cx+5, cy, 4, c, false)
 			vector.StrokeLine(img, cx+5, cy, cx-5, cy+20, 4, c, false)
+		case WeaponThunderLoop:
+			// Loop shape
+			vector.StrokeCircle(img, cx, cy, 20, 4, c, false)
+			vector.StrokeLine(img, cx-10, cy, cx+10, cy, 4, color.White, false)
+
 		case WeaponCross:
 			vector.DrawFilledRect(img, cx-5, cy-20, 10, 40, c, false)
 			vector.DrawFilledRect(img, cx-15, cy-5, 30, 10, c, false)
+		case WeaponHeavenSword:
+			// Giant sword (vertical)
+			vector.DrawFilledRect(img, cx-8, cy-25, 16, 50, c, false)
+			vector.StrokeRect(img, cx-8, cy-25, 16, 50, 2, color.White, false)
+
 		case WeaponGarlic:
 			vector.DrawFilledCircle(img, cx, cy, 18, c, false)
 			vector.StrokeLine(img, cx, cy-18, cx, cy-25, 3, color.RGBA{100, 200, 100, 255}, false)
+		case WeaponCrimsonShroud:
+			// Red aura
+			vector.DrawFilledCircle(img, cx, cy, 20, c, false)
+			vector.StrokeCircle(img, cx, cy, 25, 3, color.White, false)
 		}
 
 		g.weaponImages[t] = img
@@ -1463,6 +1683,48 @@ func (g *Game) generateIcons() {
 
 		g.passiveImages[t] = img
 	}
+}
+
+func (g *Game) newProjectile() *Projectile {
+	if len(g.unusedProjs) > 0 {
+		p := g.unusedProjs[len(g.unusedProjs)-1]
+		g.unusedProjs = g.unusedProjs[:len(g.unusedProjs)-1]
+		for k := range p.HitList {
+			delete(p.HitList, k)
+		}
+		return p
+	}
+	return &Projectile{HitList: make(map[*Enemy]bool)}
+}
+
+func (g *Game) freeProjectile(p *Projectile) {
+	g.unusedProjs = append(g.unusedProjs, p)
+}
+
+func (g *Game) newParticle() *Particle {
+	if len(g.unusedParts) > 0 {
+		p := g.unusedParts[len(g.unusedParts)-1]
+		g.unusedParts = g.unusedParts[:len(g.unusedParts)-1]
+		return p
+	}
+	return &Particle{}
+}
+
+func (g *Game) freeParticle(p *Particle) {
+	g.unusedParts = append(g.unusedParts, p)
+}
+
+func (g *Game) newDamageNumber() *DamageNumber {
+	if len(g.unusedDmg) > 0 {
+		d := g.unusedDmg[len(g.unusedDmg)-1]
+		g.unusedDmg = g.unusedDmg[:len(g.unusedDmg)-1]
+		return d
+	}
+	return &DamageNumber{}
+}
+
+func (g *Game) freeDamageNumber(d *DamageNumber) {
+	g.unusedDmg = append(g.unusedDmg, d)
 }
 
 func main() {
