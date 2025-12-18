@@ -19,6 +19,9 @@ run-pong:
 run-breakout:
 	go run ./examples/breakout
 
+run-slots:
+	go run ./examples/slots
+
 test:
 	go test ./...
 
