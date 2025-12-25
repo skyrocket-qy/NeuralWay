@@ -1,0 +1,2627 @@
+golangci-lint run ./... 
+internal/net/client.go:58:46: response body must be closed (bodyclose)
+	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+	                                            ^
+internal/graphics/chroma.go:18:2: declaration has 3 blank identifiers (dogsled)
+	_, _, _, a := c.RGBA()
+	^
+examples/puzzle_2048/main.go:332: 332-378 lines are duplicate of `examples/puzzle_2048/main.go:380-426` (dupl)
+func (g *Game) slideAndMerge(line []int, row int, leftward bool) []int {
+	nonZero := make([]int, 0)
+
+	for _, v := range line {
+		if v != 0 {
+			nonZero = append(nonZero, v)
+		}
+	}
+
+	merged := make([]int, 0)
+
+	skip := false
+	for i := 0; i < len(nonZero); i++ {
+		if skip {
+			skip = false
+
+			continue
+		}
+
+		if i+1 < len(nonZero) && nonZero[i] == nonZero[i+1] {
+			newVal := nonZero[i] * 2
+			merged = append(merged, newVal)
+			g.score += newVal
+
+			col := len(merged) - 1
+			if !leftward {
+				col = gridSize - 1 - col
+			}
+
+			g.spawnMergeParticles(row, col, newVal)
+			g.addPopup(row, col, newVal)
+
+			if newVal == 2048 && !g.continuePlay {
+				g.state = StateWin
+			}
+
+			skip = true
+		} else {
+			merged = append(merged, nonZero[i])
+		}
+	}
+
+	result := make([]int, gridSize)
+	copy(result, merged)
+
+	return result
+}
+examples/puzzle_2048/main.go:380: 380-426 lines are duplicate of `examples/puzzle_2048/main.go:332-378` (dupl)
+func (g *Game) slideAndMergeCol(line []int, col int, upward bool) []int {
+	nonZero := make([]int, 0)
+
+	for _, v := range line {
+		if v != 0 {
+			nonZero = append(nonZero, v)
+		}
+	}
+
+	merged := make([]int, 0)
+
+	skip := false
+	for i := 0; i < len(nonZero); i++ {
+		if skip {
+			skip = false
+
+			continue
+		}
+
+		if i+1 < len(nonZero) && nonZero[i] == nonZero[i+1] {
+			newVal := nonZero[i] * 2
+			merged = append(merged, newVal)
+			g.score += newVal
+
+			row := len(merged) - 1
+			if !upward {
+				row = gridSize - 1 - row
+			}
+
+			g.spawnMergeParticles(row, col, newVal)
+			g.addPopup(row, col, newVal)
+
+			if newVal == 2048 && !g.continuePlay {
+				g.state = StateWin
+			}
+
+			skip = true
+		} else {
+			merged = append(merged, nonZero[i])
+		}
+	}
+
+	result := make([]int, gridSize)
+	copy(result, merged)
+
+	return result
+}
+examples/underneath/gridmap.go:353: 353-399 lines are duplicate of `examples/underneath/gridmap.go:456-501` (dupl)
+	pathCells := []Point{
+		// From top-left
+		{X: 2, Y: 2},
+		{X: 3, Y: 2},
+		{X: 4, Y: 2},
+		{X: 5, Y: 2},
+		{X: 5, Y: 3},
+		{X: 5, Y: 4},
+		{X: 5, Y: 5},
+		{X: 5, Y: 6},
+		{X: 5, Y: 7},
+		{X: 5, Y: 8},
+		{X: 6, Y: 8},
+		{X: 7, Y: 8},
+		{X: 8, Y: 8},
+		{X: 9, Y: 8},
+		{X: 10, Y: 8},
+		{X: 11, Y: 8},
+		{X: 12, Y: 8},
+		{X: 13, Y: 8},
+		{X: 14, Y: 8},
+		{X: 15, Y: 8},
+		{X: 16, Y: 8},
+		{X: 16, Y: 9},
+		{X: 16, Y: 10},
+		{X: 16, Y: 11},
+		{X: 16, Y: 12},
+		{X: 16, Y: 13},
+		{X: 17, Y: 13},
+		{X: 18, Y: 13},
+		{X: 19, Y: 13},
+		{X: 20, Y: 13},
+		{X: 21, Y: 13},
+		{X: 22, Y: 13},
+		{X: 23, Y: 13},
+		{X: 24, Y: 13},
+		{X: 25, Y: 13},
+		{X: 26, Y: 13},
+		{X: 26, Y: 12},
+		{X: 26, Y: 11},
+		{X: 26, Y: 10},
+		{X: 26, Y: 9},
+		{X: 26, Y: 8},
+		{X: 27, Y: 8},
+		{X: 28, Y: 8},
+		{X: 29, Y: 8},
+	}
+examples/underneath/gridmap.go:456: 456-501 lines are duplicate of `examples/underneath/gridmap.go:353-399` (dupl)
+	pathCells := []Point{
+		{X: 1, Y: 9},
+		{X: 2, Y: 9},
+		{X: 3, Y: 9},
+		{X: 4, Y: 9},
+		{X: 4, Y: 8},
+		{X: 4, Y: 7},
+		{X: 5, Y: 7},
+		{X: 6, Y: 7},
+		{X: 7, Y: 7},
+		{X: 7, Y: 8},
+		{X: 7, Y: 9},
+		{X: 7, Y: 10},
+		{X: 7, Y: 11},
+		{X: 8, Y: 11},
+		{X: 9, Y: 11},
+		{X: 10, Y: 11},
+		{X: 11, Y: 11},
+		{X: 12, Y: 11},
+		{X: 12, Y: 10},
+		{X: 12, Y: 9},
+		{X: 12, Y: 8},
+		{X: 13, Y: 8},
+		{X: 14, Y: 8},
+		{X: 15, Y: 8},
+		{X: 16, Y: 8},
+		{X: 17, Y: 8},
+		{X: 18, Y: 8},
+		{X: 19, Y: 8},
+		{X: 19, Y: 7},
+		{X: 19, Y: 6},
+		{X: 20, Y: 6},
+		{X: 21, Y: 6},
+		{X: 22, Y: 6},
+		{X: 22, Y: 7},
+		{X: 22, Y: 8},
+		{X: 22, Y: 9},
+		{X: 23, Y: 9},
+		{X: 24, Y: 9},
+		{X: 25, Y: 9},
+		{X: 26, Y: 9},
+		{X: 27, Y: 9},
+		{X: 28, Y: 9},
+		{X: 29, Y: 9},
+		{X: 30, Y: 9},
+	}
+examples/underneath/map.go:65: 65-104 lines are duplicate of `examples/underneath/map.go:194-233` (dupl)
+	"castle_siege": {
+		ID:         "castle_siege",
+		Name:       "Castle Siege",
+		LevelMin:   20,
+		LevelMax:   40,
+		HeroSlots:  4,
+		TowerSlots: 8,
+		CoreHP:     200,
+		Width:      30,
+		Height:     20,
+		TileSize:   32,
+		SpawnPoint: Point{X: 32, Y: 100},
+		CorePoint:  Point{X: 900, Y: 500},
+		HeroSlotPos: []Point{
+			{X: 400, Y: 300}, {X: 600, Y: 300}, {X: 500, Y: 200}, {X: 500, Y: 400},
+		},
+		TowerSlotPos: []Point{
+			{X: 200, Y: 150},
+			{X: 200, Y: 450},
+			{X: 400, Y: 150},
+			{X: 400, Y: 450},
+			{X: 600, Y: 150},
+			{X: 600, Y: 450},
+			{X: 800, Y: 200},
+			{X: 800, Y: 400},
+		},
+		Path: []Point{
+			{X: 32, Y: 100},
+			{X: 200, Y: 100},
+			{X: 200, Y: 500},
+			{X: 400, Y: 500},
+			{X: 400, Y: 100},
+			{X: 600, Y: 100},
+			{X: 600, Y: 500},
+			{X: 800, Y: 500},
+			{X: 800, Y: 300},
+			{X: 900, Y: 300},
+			{X: 900, Y: 500},
+		},
+	},
+examples/underneath/map.go:194: 194-233 lines are duplicate of `examples/underneath/map.go:65-104` (dupl)
+	"crystal_caverns": {
+		ID:         "crystal_caverns",
+		Name:       "Crystal Caverns",
+		LevelMin:   30,
+		LevelMax:   50,
+		HeroSlots:  4,
+		TowerSlots: 8,
+		CoreHP:     300,
+		Width:      30,
+		Height:     20,
+		TileSize:   32,
+		SpawnPoint: Point{X: 32, Y: 32},
+		CorePoint:  Point{X: 928, Y: 600},
+		HeroSlotPos: []Point{
+			{X: 200, Y: 200}, {X: 400, Y: 400}, {X: 600, Y: 200}, {X: 800, Y: 400},
+		},
+		TowerSlotPos: []Point{
+			{X: 100, Y: 100},
+			{X: 300, Y: 100},
+			{X: 500, Y: 100},
+			{X: 700, Y: 100},
+			{X: 200, Y: 500},
+			{X: 400, Y: 500},
+			{X: 600, Y: 500},
+			{X: 800, Y: 500},
+		},
+		Path: []Point{
+			{X: 32, Y: 32},
+			{X: 200, Y: 32},
+			{X: 200, Y: 300},
+			{X: 400, Y: 300},
+			{X: 400, Y: 100},
+			{X: 600, Y: 100},
+			{X: 600, Y: 500},
+			{X: 800, Y: 500},
+			{X: 800, Y: 300},
+			{X: 928, Y: 300},
+			{X: 928, Y: 600},
+		},
+	},
+internal/ai/state_export.go:125:13: Error return value of `encoding/json.MarshalIndent` is not checked: unsafe type `float64` found (errchkjson)
+	data, _ := json.MarshalIndent(snapshot, "", "  ")
+	           ^
+examples/underneath/assets.go:36:9: type assertion must be checked (forcetypeassert)
+	return s.Image.SubImage(image.Rect(x, 0, x+s.FrameWidth, s.FrameHeight)).(*ebiten.Image)
+	       ^
+examples/underneath/sidebar.go:713:3: type assertion must be checked (forcetypeassert)
+		h := uiState.SelectedUnit.(*Hero)
+		^
+examples/underneath/sidebar.go:746:3: type assertion must be checked (forcetypeassert)
+		t := uiState.SelectedUnit.(*Tower)
+		^
+examples/underneath/sidebar.go:768:3: type assertion must be checked (forcetypeassert)
+		e := uiState.SelectedUnit.(*Enemy)
+		^
+internal/ai/ai_test.go:71:5: type assertion must be checked (forcetypeassert)
+	if data["tick"].(float64) != 1 {
+	   ^
+internal/ai/ai_test.go:325:10: type assertion must be checked (forcetypeassert)
+		return ctx.Data["health"].(int) > 25
+		       ^
+internal/assets/atlas.go:20:9: type assertion must be checked (forcetypeassert)
+	return r.Atlas.SubImage(image.Rect(r.X, r.Y, r.X+r.Width, r.Y+r.Height)).(*ebiten.Image)
+	       ^
+internal/assets/spritesheet.go:43:4: type assertion must be checked (forcetypeassert)
+			frame := img.SubImage(
+			^
+internal/assets/tilemap.go:99:5: type assertion must be checked (forcetypeassert)
+				tileImg := img.SubImage(
+				^
+internal/assets/tilemap.go:313:5: type assertion must be checked (forcetypeassert)
+				tileImg := img.SubImage(
+				^
+internal/game/pathfinding.go:102:3: type assertion must be checked (forcetypeassert)
+		current := heap.Pop(openHeap).(*PathNode)
+		^
+internal/game/pathfinding.go:221:2: type assertion must be checked (forcetypeassert)
+	n := x.(*PathNode)
+	^
+internal/systems/pathfinding.go:31:2: type assertion must be checked (forcetypeassert)
+	n := x.(*PathNode)
+	^
+internal/systems/pathfinding.go:171:3: type assertion must be checked (forcetypeassert)
+		current := heap.Pop(openSet).(*PathNode)
+		^
+internal/systems/shader_render_test.go:46:2: type assertion must be checked (forcetypeassert)
+	vec4 := effect.Uniforms["Color"].([]float32)
+	^
+examples/underneath/passive.go:163:1: don't use `init` function (gochecknoinits)
+func init() {
+^
+examples/underneath/effects.go:437:7: string `fire` has 8 occurrences, make it a constant (goconst)
+	case "fire":
+	     ^
+examples/underneath/effects.go:440:7: string `cold` has 8 occurrences, make it a constant (goconst)
+	case "cold":
+	     ^
+examples/underneath/effects.go:443:7: string `lightning` has 7 occurrences, make it a constant (goconst)
+	case "lightning":
+	     ^
+examples/underneath/effects.go:446:7: string `chaos` has 6 occurrences, but such constant `CurrencyChaos` already exists (goconst)
+	case "chaos":
+	     ^
+examples/underneath/enemy.go:328:19: string `physical` has 4 occurrences, make it a constant (goconst)
+	if damageType == "physical" && e.Armor > 0 {
+	                 ^
+examples/underneath/hero.go:157:7: string `marauder` has 4 occurrences, make it a constant (goconst)
+	case "marauder":
+	     ^
+examples/underneath/hero.go:159:7: string `ranger` has 4 occurrences, make it a constant (goconst)
+	case "ranger":
+	     ^
+examples/underneath/hero.go:161:7: string `witch` has 4 occurrences, make it a constant (goconst)
+	case "witch":
+	     ^
+examples/underneath/hero.go:163:7: string `duelist` has 4 occurrences, make it a constant (goconst)
+	case "duelist":
+	     ^
+examples/underneath/hero.go:165:7: string `templar` has 4 occurrences, make it a constant (goconst)
+	case "templar":
+	     ^
+examples/underneath/hero.go:167:7: string `shadow` has 4 occurrences, make it a constant (goconst)
+	case "shadow":
+	     ^
+examples/underneath/hero.go:169:7: string `scion` has 4 occurrences, make it a constant (goconst)
+	case "scion":
+	     ^
+examples/underneath/hero.go:574:7: string `damage` has 4 occurrences, but such constant `ShrineDamage` already exists (goconst)
+	case "damage", "attack_damage_percent", "spell_damage_percent",
+	     ^
+examples/underneath/hero.go:575:3: string `attack_speed` has 3 occurrences, make it a constant (goconst)
+		"attack_speed", "cast_speed", "crit_multi":
+		^
+examples/underneath/hero.go:575:19: string `cast_speed` has 3 occurrences, make it a constant (goconst)
+		"attack_speed", "cast_speed", "crit_multi":
+		                ^
+examples/underneath/hero.go:585:7: string `strength` has 4 occurrences, make it a constant (goconst)
+	case "strength":
+	     ^
+examples/underneath/hero.go:587:7: string `dexterity` has 4 occurrences, make it a constant (goconst)
+	case "dexterity":
+	     ^
+examples/underneath/hero.go:589:7: string `intelligence` has 4 occurrences, make it a constant (goconst)
+	case "intelligence":
+	     ^
+examples/underneath/hero.go:597:7: string `life` has 3 occurrences, make it a constant (goconst)
+	case "life":
+	     ^
+examples/underneath/hero.go:623:7: string `armor` has 3 occurrences, but such constant `SlotArmor` already exists (goconst)
+	case "armor":
+	     ^
+examples/underneath/management.go:1717:10: string `gem_blue` has 3 occurrences, make it a constant (goconst)
+		return "gem_blue"
+		       ^
+examples/underneath/ui.go:1142:8: string `snow` has 3 occurrences, make it a constant (goconst)
+		case "snow":
+		     ^
+examples/underneath/ui.go:1146:8: string `stone` has 3 occurrences, make it a constant (goconst)
+		case "stone":
+		     ^
+examples/underneath/ui.go:1148:8: string `ice` has 3 occurrences, make it a constant (goconst)
+		case "ice":
+		     ^
+internal/game/difficulty.go:21:9: string `Unknown` has 3 occurrences, make it a constant (goconst)
+	return "Unknown"
+	       ^
+examples/blackjack/main.go:182:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if g.playerHand.IsBlackjack() && !g.dealerHand.IsBlackjack() {
+	^
+examples/minesweeper/main.go:269:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if g.gameOver {
+	^
+examples/minesweeper/main.go:296:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if value == 0 {
+		^
+examples/pikachu_volleyball/main.go:196:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if ebiten.IsKeyPressed(p.ControlLeft) {
+	^
+examples/rpg_battle/main.go:418:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if g.state == StateSelectAction && g.currentChar() != nil && !g.currentChar().IsEnemy {
+	^
+examples/survivor/main.go:1062:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if g.gameTime < 60 {
+	^
+examples/survivor/main.go:1069:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if r < 0.3 {
+		^
+examples/survivor/main.go:1079:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if r < 0.2 {
+		^
+examples/survivor/main.go:2167:2: singleCaseSwitch: should rewrite switch statement to if statement (gocritic)
+	switch g.player.CharType {
+	^
+examples/survivor/main.go:2542:4: assignOp: replace `text = text + "!"` with `text += "!"` (gocritic)
+			text = text + "!"
+			^
+examples/underneath/audio.go:174:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if t < 0.15 {
+		^
+examples/underneath/effects.go:342:2: assignOp: replace `x = x - float64(int(x/6.283185307))*6.283185307` with `x -= float64(int(x/6.283185307))*6.283185307` (gocritic)
+	x = x - float64(int(x/6.283185307))*6.283185307
+	^
+examples/underneath/enemy.go:287:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if e.IsDead {
+	^
+examples/underneath/enemy.go:360:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if roll < 0.01 { // 1% Unique
+	^
+examples/underneath/enemy.go:376:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if currRoll < 0.6 {
+		^
+examples/underneath/hub.go:1109:9: ifElseChain: rewrite if-else to switch statement (gocritic)
+								if hero.Equipment[5] == nil {
+								^
+examples/underneath/hub.go:1261:9: elseif: can replace 'else {if cond {}}' with 'else if cond {}' (gocritic)
+	} else {
+	       ^
+examples/underneath/logic.go:245:7: ifElseChain: rewrite if-else to switch statement (gocritic)
+						if w <= 15 {
+						^
+examples/underneath/passive.go:280:4: ifElseChain: rewrite if-else to switch statement (gocritic)
+			if normalizedAngle >= 5.5 || normalizedAngle < 1.0 { // Right side - DEX
+			^
+examples/underneath/ui.go:482:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if !enabled {
+	^
+examples/underneath/ui.go:506:2: assignOp: replace `x = x - float64(int(x/(2*3.14159)))*2*3.14159` with `x -= float64(int(x/(2*3.14159)))*2*3.14159` (gocritic)
+	x = x - float64(int(x/(2*3.14159)))*2*3.14159
+	^
+examples/underneath/ui.go:1722:3: ifElseChain: rewrite if-else to switch statement (gocritic)
+		if isAllocated {
+		^
+internal/ai/scene_gen.go:154:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if strings.Contains(promptLower, "platformer") {
+	^
+internal/ai/session.go:200:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if report.TotalAnomalies == 0 {
+	^
+internal/assets/audio.go:269:3: dupBranchBody: both branches in if statement have same body (gocritic)
+		if !player.IsPlaying() {
+		^
+internal/engine/scene.go:144:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if t.elapsed < halfDuration {
+	^
+internal/game/difficulty.go:205:3: assignOp: replace `dm.WinsRecent = dm.WinsRecent / 2` with `dm.WinsRecent /= 2` (gocritic)
+		dm.WinsRecent = dm.WinsRecent / 2
+		^
+internal/game/difficulty.go:206:3: assignOp: replace `dm.LossesRecent = dm.LossesRecent / 2` with `dm.LossesRecent /= 2` (gocritic)
+		dm.LossesRecent = dm.LossesRecent / 2
+		^
+internal/game/procgen.go:236:4: ifElseChain: rewrite if-else to switch statement (gocritic)
+			if x == 0 || x == width-1 || y == 0 || y == height-1 {
+			^
+internal/render3d/collision.go:264:2: ifElseChain: rewrite if-else to switch statement (gocritic)
+	if overlapX < overlapY && overlapX < overlapZ {
+	^
+examples/breakout/main.go:186:1: cyclomatic complexity 45 of func `(*Breakout).Update` is high (> 30) (gocyclo)
+func (b *Breakout) Update() error {
+^
+examples/mini_rts/main.go:110:1: cyclomatic complexity 40 of func `(*Game).Update` is high (> 30) (gocyclo)
+func (g *Game) Update() error {
+^
+examples/pong/main.go:192:1: cyclomatic complexity 45 of func `(*Pong).Update` is high (> 30) (gocyclo)
+func (p *Pong) Update() error {
+^
+examples/roguelike/main.go:213:1: cyclomatic complexity 43 of func `(*Game).Update` is high (> 30) (gocyclo)
+func (g *Game) Update() error {
+^
+examples/rpg_battle/main.go:165:1: cyclomatic complexity 36 of func `(*Game).Update` is high (> 30) (gocyclo)
+func (g *Game) Update() error {
+^
+examples/underneath/hero.go:431:1: cyclomatic complexity 34 of func `(*Hero).RecalculateStats` is high (> 30) (gocyclo)
+func (h *Hero) RecalculateStats() {
+^
+examples/underneath/hub.go:57:1: cyclomatic complexity 68 of func `(*Game).updateManagement` is high (> 30) (gocyclo)
+func (g *Game) updateManagement() {
+^
+examples/underneath/hub.go:984:1: cyclomatic complexity 36 of func `(*Game).drawStashContent` is high (> 30) (gocyclo)
+func (g *Game) drawStashContent(screen *ebiten.Image, x, y, w, h float64) {
+^
+examples/underneath/hub.go:1686:1: cyclomatic complexity 36 of func `(*Game).updateInventoryPanel` is high (> 30) (gocyclo)
+func (g *Game) updateInventoryPanel(mx, my int) {
+^
+examples/underneath/logic.go:38:1: cyclomatic complexity 37 of func `(*Game).updateWave` is high (> 30) (gocyclo)
+func (g *Game) updateWave() {
+^
+examples/underneath/logic.go:375:1: cyclomatic complexity 37 of func `(*Game).heroAttack` is high (> 30) (gocyclo)
+func (g *Game) heroAttack(h *Hero) {
+^
+examples/underneath/management.go:570:1: cyclomatic complexity 61 of func `(*Game).updateMgmtEquipment` is high (> 30) (gocyclo)
+func (g *Game) updateMgmtEquipment(mx, my int) {
+^
+examples/underneath/passive.go:167:1: cyclomatic complexity 53 of func `generatePassiveTree` is high (> 30) (gocyclo)
+func generatePassiveTree() {
+^
+examples/underneath/sidebar.go:65:1: cyclomatic complexity 31 of func `(*Game).UpdateSidebarUI` is high (> 30) (gocyclo)
+func (g *Game) UpdateSidebarUI() {
+^
+examples/underneath/ui.go:1571:1: cyclomatic complexity 43 of func `(*Game).drawPassiveTree` is high (> 30) (gocyclo)
+func (g *Game) drawPassiveTree(screen *ebiten.Image) {
+^
+examples/agar/main.go:98:10: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		X:     rand.Float64() * worldSize,
+		       ^
+examples/agar/main.go:99:10: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Y:     rand.Float64() * worldSize,
+		       ^
+examples/agar/main.go:100:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Color: colors[rand.Intn(len(colors))],
+		              ^
+examples/agar/main.go:115:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		X:      rand.Float64() * worldSize,
+		        ^
+examples/agar/main.go:116:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Y:      rand.Float64() * worldSize,
+		        ^
+examples/agar/main.go:117:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Radius: 15 + rand.Float64()*30,
+		             ^
+examples/agar/main.go:118:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Color:  colors[rand.Intn(len(colors))],
+		               ^
+examples/agar/main.go:120:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		Name:   names[rand.Intn(len(names))],
+		              ^
+examples/breakout/main.go:136:13: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := (rand.Float64()*60 - 30) * math.Pi / 180
+		          ^
+examples/breakout/main.go:172:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * math.Pi * 2
+		         ^
+examples/breakout/main.go:173:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := 2 + rand.Float64()*3
+		             ^
+examples/breakout/main.go:177:45: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Life: 1.0, Color: brick.Color, Size: 3 + rand.Float64()*3,
+			                                         ^
+examples/breakout/main.go:558:22: G115: integer overflow conversion int -> uint8 (gosec)
+		comboAlpha := uint8(min(int(b.comboTimer*127+128), 255))
+		                   ^
+examples/flappy/main.go:101:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	gapY := minGap + rand.Float64()*(maxGap-minGap)
+	                 ^
+examples/flappy/main.go:107:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * math.Pi * 2
+		         ^
+examples/flappy/main.go:108:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := 2 + rand.Float64()*4
+		             ^
+examples/flappy/main.go:112:49: G115: integer overflow conversion int -> uint8 (gosec)
+			Life: 1.0, Color: color.RGBA{R: 255, G: uint8(180 + rand.Intn(75)), B: 50, A: 255},
+			                                             ^
+examples/flappy/main.go:112:56: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Life: 1.0, Color: color.RGBA{R: 255, G: uint8(180 + rand.Intn(75)), B: 50, A: 255},
+			                                                    ^
+examples/flappy/main.go:113:14: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Size: 4 + rand.Float64()*4,
+			          ^
+examples/flappy/main.go:389:16: G115: integer overflow conversion int -> uint8 (gosec)
+	alpha := uint8(min(int(g.deathTimer*300), 180))
+	              ^
+examples/match3/main.go:123:22: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				Type:    GemType(rand.Intn(int(GemCount))),
+				                 ^
+examples/match3/main.go:145:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := 2 + rand.Float64()*3
+		             ^
+examples/match3/main.go:149:37: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Life: 0.8, Color: clr, Size: 4 + rand.Float64()*3,
+			                                 ^
+examples/match3/main.go:416:23: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+					Type:    GemType(rand.Intn(int(GemCount))),
+					                 ^
+examples/minesweeper/main.go:75:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		r := rand.Intn(gridSize)
+		     ^
+examples/minesweeper/main.go:76:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		c := rand.Intn(gridSize)
+		     ^
+examples/mini_rts/main.go:129:45: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitSoldier))
+		                                          ^
+examples/mini_rts/main.go:129:68: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitSoldier))
+		                                                                 ^
+examples/mini_rts/main.go:135:45: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitArcher))
+		                                          ^
+examples/mini_rts/main.go:135:68: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitArcher))
+		                                                                 ^
+examples/mini_rts/main.go:141:45: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitTank))
+		                                          ^
+examples/mini_rts/main.go:141:68: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		g.units = append(g.units, g.createUnit(50+rand.Float64()*80, 250+rand.Float64()*100, 0, UnitTank))
+		                                                                 ^
+examples/mini_rts/main.go:241:23: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				u.TargetY = u.Y + rand.Float64()*50 - 25
+				                  ^
+examples/mini_rts/main.go:265:6: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if rand.Float64() < 0.3 {
+		   ^
+examples/mini_rts/main.go:269:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if g.wave > 3 && rand.Float64() < 0.2 {
+		                 ^
+examples/mini_rts/main.go:275:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			150+rand.Float64()*300,
+			    ^
+examples/pong/main.go:164:32: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			p.aiTargetY = predictedY + (rand.Float64()-0.5)*errorRange
+			                            ^
+examples/pong/main.go:165:27: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			p.aiReactDelay = 0.1 + rand.Float64()*0.1 // Delay before next update
+			                       ^
+examples/pong/main.go:262:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				p.ball.VY = (rand.Float64() - 0.5) * ballSpeed
+				             ^
+examples/puzzle_2048/main.go:124:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	pos := empty[rand.Intn(len(empty))]
+	             ^
+examples/puzzle_2048/main.go:127:5: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	if rand.Float64() < 0.1 {
+	   ^
+examples/puzzle_2048/main.go:146:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := 2 + rand.Float64()*2
+		             ^
+examples/puzzle_2048/main.go:150:37: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Life: 0.8, Color: clr, Size: 4 + rand.Float64()*3,
+			                                 ^
+examples/roguelike/main.go:113:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	for i := 0; i < 6+rand.Intn(4); i++ {
+	                  ^
+examples/roguelike/main.go:114:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		w := 4 + rand.Intn(5)
+		         ^
+examples/roguelike/main.go:115:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		h := 3 + rand.Intn(4)
+		         ^
+examples/roguelike/main.go:116:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		x := 1 + rand.Intn(mapWidth-w-2)
+		         ^
+examples/roguelike/main.go:117:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		y := 1 + rand.Intn(mapHeight-h-2)
+		         ^
+examples/roguelike/main.go:168:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			x := rand.Intn(mapWidth)
+			     ^
+examples/roguelike/main.go:170:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			y := rand.Intn(mapHeight)
+			     ^
+examples/roguelike/main.go:172:29: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				hp := 20 + g.floor*10 + rand.Intn(20)
+				                        ^
+examples/roguelike/main.go:177:25: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+					Name:   enemyNames[rand.Intn(len(enemyNames))],
+					                   ^
+examples/roguelike/main.go:188:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	for i := 0; i < 3+rand.Intn(3); i++ {
+	                  ^
+examples/roguelike/main.go:190:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			x := rand.Intn(mapWidth)
+			     ^
+examples/roguelike/main.go:192:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			y := rand.Intn(mapHeight)
+			     ^
+examples/roguelike/main.go:194:26: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				itemType := ItemType(rand.Intn(4))
+				                     ^
+examples/roguelike/main.go:195:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				value := 10 + rand.Intn(20)
+				              ^
+examples/roguelike/main.go:262:33: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				damage := g.player.Attack - rand.Intn(5)
+				                            ^
+examples/rpg_battle/main.go:213:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			target := alive[rand.Intn(len(alive))]
+			                ^
+examples/slots/main.go:164:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			SpinSpeed: 25 + rand.Float64()*10,
+			                ^
+examples/slots/main.go:242:34: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			sm.DisplayGrid[i][j] = Symbol(rand.Intn(int(SymbolCount)))
+			                              ^
+examples/slots/main.go:261:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		reel.TargetPos = rand.Intn(len(reel.Symbols))
+		                 ^
+examples/slots/main.go:262:25: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		reel.SpinSpeed = 25 + rand.Float64()*10
+		                      ^
+examples/snake/main.go:105:7: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			X: rand.Intn(gridWidth),
+			   ^
+examples/snake/main.go:106:7: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Y: rand.Intn(gridHeight),
+			   ^
+examples/snake/main.go:130:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := 2.0 + rand.Float64()*2
+		               ^
+examples/snake/main.go:136:38: G115: integer overflow conversion int -> uint8 (gosec)
+			Color: color.RGBA{R: 255, G: uint8(100 + rand.Intn(100)), B: 50, A: 255},
+			                                  ^
+examples/snake/main.go:136:45: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Color: color.RGBA{R: 255, G: uint8(100 + rand.Intn(100)), B: 50, A: 255},
+			                                         ^
+examples/snake/main.go:137:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Size:  4 + rand.Float64()*3,
+			           ^
+examples/snake/main.go:148:13: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			angle := rand.Float64() * math.Pi * 2
+			         ^
+examples/snake/main.go:149:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			speed := 1.0 + rand.Float64()*3
+			               ^
+examples/snake/main.go:156:14: G115: integer overflow conversion int -> uint8 (gosec)
+					R: uint8(50 + rand.Intn(50)),
+					        ^
+examples/snake/main.go:156:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+					R: uint8(50 + rand.Intn(50)),
+					              ^
+examples/snake/main.go:157:14: G115: integer overflow conversion int -> uint8 (gosec)
+					G: uint8(150 + rand.Intn(100)),
+					        ^
+examples/snake/main.go:157:21: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+					G: uint8(150 + rand.Intn(100)),
+					               ^
+examples/snake/main.go:158:14: G115: integer overflow conversion int -> uint8 (gosec)
+					B: uint8(50 + rand.Intn(50)),
+					        ^
+examples/snake/main.go:158:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+					B: uint8(50 + rand.Intn(50)),
+					              ^
+examples/snake/main.go:161:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				Size: 3 + rand.Float64()*4,
+				          ^
+examples/snake/main.go:364:17: G115: integer overflow conversion int -> uint8 (gosec)
+		alpha := uint8(200 - i*8)
+		              ^
+examples/snake/main.go:370:30: G115: integer overflow conversion int -> uint8 (gosec)
+			color.RGBA{R: 50, G: uint8(180 - i*5), B: 50, A: alpha},
+			                          ^
+examples/snake/main.go:474:16: G115: integer overflow conversion int -> uint8 (gosec)
+	alpha := uint8(min(int(s.deathTimer*400), 180))
+	              ^
+examples/space_shooter/main.go:227:7: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	x := rand.Float64()*(screenWidth-60) + 30
+	     ^
+examples/space_shooter/main.go:228:24: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	speed := enemySpeed + rand.Float64()*float64(g.level)*0.5
+	                      ^
+examples/space_shooter/main.go:242:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * math.Pi * 2
+		         ^
+examples/space_shooter/main.go:243:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := rand.Float64()*3 + 1
+		         ^
+examples/space_shooter/main.go:250:38: G115: integer overflow conversion int -> uint8 (gosec)
+			Color: color.RGBA{R: 255, G: uint8(rand.Intn(200)), B: 0, A: 255},
+			                                  ^
+examples/space_shooter/main.go:250:39: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			Color: color.RGBA{R: 255, G: uint8(rand.Intn(200)), B: 0, A: 255},
+			                                   ^
+examples/space_shooter/main.go:310:22: G115: integer overflow conversion int -> uint8 (gosec)
+		brightness := uint8(100 + (i*7)%155)
+		                   ^
+examples/survivor/audio.go:77:2: G104: Errors unhandled (gosec)
+	ap.manager.CreatePoolFromBytes("shoot", genShootSound(), 8, "wav")
+	^
+examples/survivor/audio.go:78:2: G104: Errors unhandled (gosec)
+	ap.manager.CreatePoolFromBytes("hit", genHitSound(), 8, "wav")
+	^
+examples/survivor/audio.go:79:2: G104: Errors unhandled (gosec)
+	ap.manager.CreatePoolFromBytes("levelup", genLevelUpSound(), 4, "wav")
+	^
+examples/survivor/audio.go:80:2: G104: Errors unhandled (gosec)
+	ap.manager.CreatePoolFromBytes("select", genSelectSound(), 4, "wav")
+	^
+examples/survivor/audio.go:84:2: G104: Errors unhandled (gosec)
+	ap.manager.LoadMusicFromBytes("bgm", genBGM(), "wav")
+	^
+examples/survivor/audio.go:105:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		noise := rand.Float64()*2 - 1
+		         ^
+examples/survivor/audio.go:121:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		noise := rand.Float64()*2 - 1
+		         ^
+examples/survivor/audio.go:191:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			drum = (rand.Float64()*2 - 1) * (1.0 - localT/0.1)
+			        ^
+examples/survivor/audio.go:207:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(fileSize))
+	^
+examples/survivor/audio.go:207:46: G115: integer overflow conversion int -> int32 (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(fileSize))
+	                                            ^
+examples/survivor/audio.go:212:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(16)) // Chunk size
+	^
+examples/survivor/audio.go:213:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int16(1))  // PCM
+	^
+examples/survivor/audio.go:214:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int16(2))  // Channels (Stereo)
+	^
+examples/survivor/audio.go:215:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(sampleRate))
+	^
+examples/survivor/audio.go:216:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(sampleRate*4)) // Byte rate
+	^
+examples/survivor/audio.go:217:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int16(4))            // Block align
+	^
+examples/survivor/audio.go:218:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int16(16))           // Bits per sample
+	^
+examples/survivor/audio.go:222:2: G104: Errors unhandled (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(dataSize))
+	^
+examples/survivor/audio.go:222:46: G115: integer overflow conversion int -> int32 (gosec)
+	binary.Write(buf, binary.LittleEndian, int32(dataSize))
+	                                            ^
+examples/survivor/audio.go:239:3: G104: Errors unhandled (gosec)
+		binary.Write(buf, binary.LittleEndian, intVal)
+		^
+examples/survivor/audio.go:240:3: G104: Errors unhandled (gosec)
+		binary.Write(buf, binary.LittleEndian, intVal)
+		^
+examples/survivor/main.go:1055:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	angle := rand.Float64() * math.Pi * 2
+	         ^
+examples/survivor/main.go:1061:7: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	r := rand.Float64()
+	     ^
+examples/survivor/main.go:1109:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	angle := rand.Float64() * math.Pi * 2
+	         ^
+examples/survivor/main.go:1165:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			baseAngle = (rand.Float64() - 0.5) * math.Pi / 2
+			             ^
+examples/survivor/main.go:1335:21: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		slot := EquipSlot(rand.Intn(int(SlotCount)))
+		                  ^
+examples/survivor/main.go:1338:6: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if rand.Float64() < 0.3 {
+		   ^
+examples/survivor/main.go:1344:25: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	} else if e.XP >= 5 && rand.Float64() < 0.05 {
+	                       ^
+examples/survivor/main.go:1346:21: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		slot := EquipSlot(rand.Intn(int(SlotCount)))
+		                  ^
+examples/survivor/main.go:1349:6: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if rand.Float64() < 0.2 {
+		   ^
+examples/survivor/main.go:1359:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	vx := (rand.Float64() - 0.5) * 60
+	       ^
+examples/survivor/main.go:1360:9: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	vy := -rand.Float64()*60 - 30
+	       ^
+examples/survivor/main.go:1380:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * math.Pi * 2
+		         ^
+examples/survivor/main.go:1381:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := rand.Float64()*100 + 50
+		         ^
+examples/survivor/main.go:1382:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		life := 0.3 + rand.Float64()*0.4
+		              ^
+examples/survivor/main.go:1392:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		p.Size = 3 + rand.Float64()*4
+		             ^
+examples/survivor/main.go:1402:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * math.Pi * 2
+		         ^
+examples/survivor/main.go:1403:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		speed := rand.Float64()*30 + 10 // Slower than hit particles
+		         ^
+examples/survivor/main.go:1404:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		life := 0.15 + rand.Float64()*0.15
+		               ^
+examples/survivor/main.go:1407:14: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		p.X = x + (rand.Float64()-0.5)*6
+		           ^
+examples/survivor/main.go:1408:14: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		p.Y = y + (rand.Float64()-0.5)*6
+		           ^
+examples/survivor/main.go:1415:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		p.Size = 2 + rand.Float64()*2 // Smaller than explosion particles
+		             ^
+examples/survivor/main.go:1444:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if speed > 3 && rand.Float64() < 0.3 {
+		                ^
+examples/survivor/main.go:1463:13: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				crit := rand.Float64() < g.player.CritChance
+				        ^
+examples/survivor/main.go:2268:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	name := slotNames[rand.Intn(len(slotNames))]
+	                  ^
+examples/survivor/main.go:2274:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		name = prefixes[rand.Intn(len(prefixes))] + " " + name
+		                ^
+examples/survivor/main.go:2277:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		name = prefixes[rand.Intn(len(prefixes))] + " " + name
+		                ^
+examples/survivor/main.go:2280:18: G602: slice index out of range (gosec)
+		name = prefixes[rand.Intn(len(prefixes))] + " " + name
+		               ^
+examples/survivor/main.go:2280:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		name = prefixes[rand.Intn(len(prefixes))] + " " + name
+		                ^
+examples/survivor/main.go:2290:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		modCount = 1 + rand.Intn(2)
+		               ^
+examples/survivor/main.go:2292:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		modCount = 3 + rand.Intn(2)
+		               ^
+examples/survivor/main.go:2294:18: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		modCount = 5 + rand.Intn(2)
+		               ^
+examples/survivor/main.go:2311:28: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		modType := preferredMods[rand.Intn(len(preferredMods))]
+		                         ^
+examples/survivor/main.go:2312:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		tier := 1 + rand.Intn(min(5, itemLevel/10+1))
+		            ^
+examples/survivor/main.go:2657:12: G115: integer overflow conversion int -> uint8 (gosec)
+			R: uint8(min(255, int(p.Color.R)+100)),
+			        ^
+examples/survivor/main.go:2658:12: G115: integer overflow conversion int -> uint8 (gosec)
+			G: uint8(min(255, int(p.Color.G)+100)),
+			        ^
+examples/survivor/main.go:2659:12: G115: integer overflow conversion int -> uint8 (gosec)
+			B: uint8(min(255, int(p.Color.B)+100)),
+			        ^
+examples/survivor/main.go:2672:25: G115: integer overflow conversion int -> uint8 (gosec)
+					trailAlpha := uint8(150 - i*30)
+					                   ^
+examples/survivor/main.go:2803:23: G115: integer overflow conversion int -> uint8 (gosec)
+				ringAlpha := uint8(150 - i*40)
+				                  ^
+examples/survivor/main.go:2811:24: G115: integer overflow conversion int -> uint8 (gosec)
+				steamAlpha := uint8(100 - i*20)
+				                   ^
+examples/survivor/main.go:2923:35: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+				lineLen := lineWidth * (0.6 + rand.Float64()*0.4) // Varying lengths
+				                              ^
+examples/survivor/qa_test.go:70:3: G104: Errors unhandled (gosec)
+		adapter.Reset()
+		^
+examples/survivor/qa_test.go:81:3: G104: Errors unhandled (gosec)
+		adapter.Reset()
+		^
+examples/survivor/qa_test.go:88:4: G104: Errors unhandled (gosec)
+			adapter.PerformAction(ai.ActionMoveRight)
+			^
+examples/survivor/qa_test.go:89:4: G104: Errors unhandled (gosec)
+			adapter.Step()
+			^
+examples/survivor/qa_test.go:101:3: G104: Errors unhandled (gosec)
+		adapter.Reset()
+		^
+examples/survivor/qa_test.go:114:2: G104: Errors unhandled (gosec)
+	adapter.Reset()
+	^
+examples/survivor/qa_test.go:123:3: G104: Errors unhandled (gosec)
+		adapter.PerformAction(action)
+		^
+examples/survivor/qa_test.go:124:3: G104: Errors unhandled (gosec)
+		adapter.Step()
+		^
+examples/survivor/qa_test.go:143:2: G104: Errors unhandled (gosec)
+	adapter.Reset()
+	^
+examples/survivor/qa_test.go:146:3: G104: Errors unhandled (gosec)
+		adapter.PerformAction(ai.ActionMoveRight)
+		^
+examples/survivor/qa_test.go:147:3: G104: Errors unhandled (gosec)
+		adapter.Step()
+		^
+examples/underneath/affix.go:57:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	count := rand.Intn(maxCount-minCount+1) + minCount
+	         ^
+examples/underneath/affix.go:70:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		def := AffixPool[rand.Intn(len(AffixPool))]
+		                 ^
+examples/underneath/affix.go:75:20: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			def = AffixPool[rand.Intn(len(AffixPool))]
+			                ^
+examples/underneath/affix.go:84:23: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		val := def.MinVal + rand.Float64()*(def.MaxVal-def.MinVal)
+		                    ^
+examples/underneath/assets.go:229:15: G304: Potential file inclusion via variable (gosec)
+	data, err := os.ReadFile(path)
+	             ^
+examples/underneath/audio.go:126:3: G104: Errors unhandled (gosec)
+		soundMgr.CurrentMusic.Rewind()
+		^
+examples/underneath/audio.go:160:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		return (rand.Float64()*2 - 1) * math.Exp(-t*20)
+		        ^
+examples/underneath/audio.go:167:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		return (rand.Float64()*2 - 1) * math.Exp(-t*5)
+		        ^
+examples/underneath/audio.go:322:13: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		noise := (rand.Float64()*2 - 1) * 0.3
+		          ^
+examples/underneath/audio.go:333:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		noise := rand.Float64()*2 - 1
+		         ^
+examples/underneath/audio.go:357:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		crackle := (rand.Float64()*2 - 1) * math.Exp(-t*15)
+		            ^
+examples/underneath/keybindings.go:23:2: G101: Potential hardcoded credentials (gosec)
+	ActionPassiveTree = "Toggle Passive Tree"
+	^
+examples/underneath/keybindings.go:27:2: G101: Potential hardcoded credentials (gosec)
+	ActionTabPassives = "Tab: Passives"
+	^
+examples/underneath/keybindings.go:141:12: G301: Expect directory permissions to be 0750 or less (gosec)
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+	          ^
+examples/underneath/keybindings.go:154:2: G104: Errors unhandled (gosec)
+	os.WriteFile(path, data, 0o644)
+	^
+examples/underneath/keybindings.go:154:2: G306: Expect WriteFile permissions to be 0600 or less (gosec)
+	os.WriteFile(path, data, 0o644)
+	^
+examples/underneath/keybindings.go:160:15: G304: Potential file inclusion via variable (gosec)
+	data, err := os.ReadFile(path)
+	             ^
+examples/underneath/league.go:80:13: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	t := types[rand.Intn(len(types))]
+	           ^
+examples/underneath/loot.go:111:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	slot := slots[rand.Intn(len(slots))]
+	              ^
+examples/underneath/loot.go:119:16: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	base := bases[rand.Intn(len(bases))]
+	              ^
+examples/underneath/loot.go:190:6: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if rand.Float64() < threshold {
+		   ^
+examples/underneath/loot.go:220:6: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if rand.Float64() < linkChance {
+		   ^
+examples/underneath/loot.go:270:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		prefixCount = rand.Intn(2) // 0-1
+		              ^
+examples/underneath/loot.go:272:17: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		suffixCount = rand.Intn(2)
+		              ^
+examples/underneath/loot.go:275:7: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			if rand.Intn(2) == 0 {
+			   ^
+examples/underneath/loot.go:282:21: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		prefixCount = 1 + rand.Intn(3) // 1-3
+		                  ^
+examples/underneath/loot.go:283:21: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		suffixCount = 1 + rand.Intn(3)
+		                  ^
+examples/underneath/loot.go:292:10: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		idx := rand.Intn(len(AffixPrefixes))
+		       ^
+examples/underneath/loot.go:294:24: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		value := affix.Min + rand.Float64()*(affix.Max-affix.Min)
+		                     ^
+examples/underneath/loot.go:307:10: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		idx := rand.Intn(len(AffixSuffixes))
+		       ^
+examples/underneath/loot.go:309:24: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		value := affix.Min + rand.Float64()*(affix.Max-affix.Min)
+		                     ^
+examples/underneath/loot.go:341:25: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		item.Name = rareNames[rand.Intn(len(rareNames))] + " " + rareSuffixes[rand.Intn(len(rareSuffixes))]
+		                      ^
+examples/underneath/loot.go:341:73: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		item.Name = rareNames[rand.Intn(len(rareNames))] + " " + rareSuffixes[rand.Intn(len(rareSuffixes))]
+		                                                                      ^
+examples/underneath/loot.go:351:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	isSupport := rand.Float64() < 0.3
+	             ^
+examples/underneath/loot.go:362:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		gemDefID = keys[rand.Intn(len(keys))]
+		                ^
+examples/underneath/loot.go:370:19: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		gemDefID = keys[rand.Intn(len(keys))]
+		                ^
+examples/underneath/loot.go:435:5: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	if rand.Float64() < itemDropChance {
+	   ^
+examples/underneath/loot.go:445:5: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	if rand.Float64() < gemDropChance {
+	   ^
+examples/underneath/loot.go:457:10: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	roll := rand.Float64()
+	        ^
+examples/underneath/profile.go:106:3: G301: Expect directory permissions to be 0750 or less (gosec)
+		os.Mkdir(dir, 0o755)
+		^
+examples/underneath/profile.go:106:3: G104: Errors unhandled (gosec)
+		os.Mkdir(dir, 0o755)
+		^
+examples/underneath/profile.go:113:3: G104: Errors unhandled (gosec)
+		os.WriteFile(filename, data, 0o644)
+		^
+examples/underneath/profile.go:113:3: G306: Expect WriteFile permissions to be 0600 or less (gosec)
+		os.WriteFile(filename, data, 0o644)
+		^
+examples/underneath/profile.go:133:17: G304: Potential file inclusion via variable (gosec)
+			data, err := os.ReadFile(filepath.Join(dir, f.Name()))
+			             ^
+examples/underneath/settings.go:457:2: G104: Errors unhandled (gosec)
+	os.WriteFile(settingsFilePath, data, 0o644)
+	^
+examples/underneath/settings.go:457:2: G306: Expect WriteFile permissions to be 0600 or less (gosec)
+	os.WriteFile(settingsFilePath, data, 0o644)
+	^
+examples/underneath/ui.go:215:47: G115: integer overflow conversion int -> uint8 (gosec)
+			particleCol = color.RGBA{0, 220, 255, uint8(40 + (i*17)%40)}
+			                                           ^
+examples/underneath/ui.go:217:48: G115: integer overflow conversion int -> uint8 (gosec)
+			particleCol = color.RGBA{255, 50, 180, uint8(40 + (i*17)%40)}
+			                                            ^
+examples/underneath/ui.go:219:48: G115: integer overflow conversion int -> uint8 (gosec)
+			particleCol = color.RGBA{50, 255, 130, uint8(40 + (i*17)%40)}
+			                                            ^
+examples/underneath/ui.go:221:48: G115: integer overflow conversion int -> uint8 (gosec)
+			particleCol = color.RGBA{255, 160, 50, uint8(40 + (i*17)%40)}
+			                                            ^
+examples/underneath/ui.go:839:23: G115: integer overflow conversion int -> uint8 (gosec)
+			pulseAlpha := uint8(100 + int(bounce*10))
+			                   ^
+examples/underneath/ui.go:972:24: G115: integer overflow conversion int -> uint8 (gosec)
+				emberAlpha := uint8(180 - i*40)
+				                   ^
+examples/underneath/ui.go:984:27: G115: integer overflow conversion int -> uint8 (gosec)
+					color.RGBA{255, uint8(50 + i*30), 0, emberAlpha},
+					                     ^
+examples/underneath/ui.go:1000:26: G115: integer overflow conversion int -> uint8 (gosec)
+				sparkleAlpha := uint8(150 - i*40)
+				                     ^
+internal/ai/ai_test.go:105:2: G104: Errors unhandled (gosec)
+	executor.Execute(action)
+	^
+internal/ai/ai_test.go:123:2: G104: Errors unhandled (gosec)
+	executor.Execute(action)
+	^
+internal/ai/ai_test.go:145:2: G104: Errors unhandled (gosec)
+	executor.Execute(action)
+	^
+internal/ai/anomaly.go:267:23: G602: slice index out of range (gosec)
+		if pos[0] < 0 || pos[0] > d.BoundsWidth ||
+		                    ^
+internal/ai/anomaly.go:268:21: G602: slice index out of range (gosec)
+			pos[1] < 0 || pos[1] > d.BoundsHeight {
+			                 ^
+internal/ai/anomaly.go:273:73: G602: slice index out of range (gosec)
+				Description: fmt.Sprintf("Player out of bounds at (%.1f, %.1f)", pos[0], pos[1]),
+				                                                                    ^
+internal/ai/anomaly.go:273:81: G602: slice index out of range (gosec)
+				Description: fmt.Sprintf("Player out of bounds at (%.1f, %.1f)", pos[0], pos[1]),
+				                                                                            ^
+internal/ai/players.go:16:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		rng: rand.New(rand.NewSource(seed)),
+		     ^
+internal/ai/players.go:38:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		rng:     rand.New(rand.NewSource(seed)),
+		         ^
+internal/ai/qa_agent.go:57:4: G104: Errors unhandled (gosec)
+			a.executor.Execute(action)
+			^
+internal/ai/session.go:110:2: G104: Errors unhandled (gosec)
+	s.adapter.Reset()
+	^
+internal/ai/session.go:128:3: G104: Errors unhandled (gosec)
+		s.adapter.PerformAction(action)
+		^
+internal/ai/session.go:131:3: G104: Errors unhandled (gosec)
+		s.adapter.Step()
+		^
+internal/assets/audio.go:270:4: G104: Errors unhandled (gosec)
+			player.Rewind()
+			^
+internal/assets/audio.go:274:4: G104: Errors unhandled (gosec)
+			player.Rewind()
+			^
+internal/assets/audio.go:284:3: G104: Errors unhandled (gosec)
+		player.Rewind()
+		^
+internal/assets/audio.go:300:2: G104: Errors unhandled (gosec)
+	player.Rewind()
+	^
+internal/assets/audio.go:311:4: G104: Errors unhandled (gosec)
+			player.Rewind()
+			^
+internal/assets/audio.go:368:3: G104: Errors unhandled (gosec)
+		player.Rewind()
+		^
+internal/assets/audio.go:396:4: G104: Errors unhandled (gosec)
+			player.Rewind()
+			^
+internal/assets/audio.go:417:2: G104: Errors unhandled (gosec)
+	player.Rewind()
+	^
+internal/evolution/analyzer.go:127:16: G304: Potential file inclusion via variable (gosec)
+		file, err := os.Open(path)
+		             ^
+internal/evolution/deps.go:55:15: G304: Potential file inclusion via variable (gosec)
+	file, err := os.Open(goModPath)
+	             ^
+internal/game/camera.go:151:43: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	c.ShakeOffset.X = c.MaxShakeX * shake * (rand.Float64()*2 - 1)
+	                                         ^
+internal/game/camera.go:152:43: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	c.ShakeOffset.Y = c.MaxShakeY * shake * (rand.Float64()*2 - 1)
+	                                         ^
+internal/game/particle.go:148:28: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	p.MaxLife = cfg.LifeMin + rand.Float64()*(cfg.LifeMax-cfg.LifeMin)
+	                          ^
+internal/game/particle.go:152:34: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	variance := cfg.SizeVariance * (rand.Float64()*2 - 1)
+	                                ^
+internal/game/particle.go:158:26: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	speed := cfg.SpeedMin + rand.Float64()*(cfg.SpeedMax-cfg.SpeedMin)
+	                        ^
+internal/game/particle.go:159:26: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	angle := cfg.AngleMin + rand.Float64()*(cfg.AngleMax-cfg.AngleMin)
+	                        ^
+internal/game/particle.go:174:33: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	p.Rotation = cfg.RotationMin + rand.Float64()*(cfg.RotationMax-cfg.RotationMin)
+	                               ^
+internal/game/particle.go:175:33: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	p.RotSpeed = cfg.RotSpeedMin + rand.Float64()*(cfg.RotSpeedMax-cfg.RotSpeedMin)
+	                               ^
+internal/game/procgen.go:89:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		rng: rand.New(rand.NewSource(seed)),
+		     ^
+internal/game/procgen.go:221:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		rng: rand.New(rand.NewSource(seed)),
+		     ^
+internal/game/procgen.go:315:8: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		rng: rand.New(rand.NewSource(seed)),
+		     ^
+internal/game/save.go:4:2: G501: Blocklisted import crypto/md5: weak cryptographic primitive (gosec)
+	"crypto/md5"
+	^
+internal/game/save.go:133:10: G401: Use of weak cryptographic primitive (gosec)
+	hash := md5.Sum(jsonData)
+	        ^
+internal/game/save.go:152:12: G301: Expect directory permissions to be 0750 or less (gosec)
+	if err := os.MkdirAll(sm.SaveDir, 0o755); err != nil {
+	          ^
+internal/game/save.go:168:12: G306: Expect WriteFile permissions to be 0600 or less (gosec)
+	if err := os.WriteFile(path, jsonData, 0o644); err != nil {
+	          ^
+internal/game/save.go:181:15: G304: Potential file inclusion via variable (gosec)
+	file, err := os.Open(path)
+	             ^
+internal/game/screenshake.go:97:38: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	s.OffsetX = s.MaxOffsetX * shake * (rand.Float64()*2 - 1)
+	                                    ^
+internal/game/screenshake.go:98:38: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	s.OffsetY = s.MaxOffsetY * shake * (rand.Float64()*2 - 1)
+	                                    ^
+internal/game/screenshake.go:99:40: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	s.Rotation = s.MaxRotation * shake * (rand.Float64()*2 - 1)
+	                                      ^
+internal/net/client.go:69:2: G104: Errors unhandled (gosec)
+	c.Send(NewConnectMessage())
+	^
+internal/net/client.go:134:3: G104: Errors unhandled (gosec)
+		c.conn.Close()
+		^
+internal/net/client.go:175:4: G104: Errors unhandled (gosec)
+			c.Send(NewPongMessage(msg.Sequence))
+			^
+internal/net/client.go:222:4: G104: Errors unhandled (gosec)
+			c.Connect(addr)
+			^
+internal/net/debug.go:38:25: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+	if d.PacketLoss > 0 && rand.Float64() < d.PacketLoss {
+	                       ^
+internal/net/debug.go:46:15: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+			latency += rand.Intn(d.LatencyJitterMs)
+			           ^
+internal/net/debug.go:109:23: G115: integer overflow conversion int -> uint64 (gosec)
+	s.BytesSent += uint64(bytes)
+	                     ^
+internal/net/debug.go:115:27: G115: integer overflow conversion int -> uint64 (gosec)
+	s.BytesReceived += uint64(bytes)
+	                         ^
+internal/net/message.go:49:49: G115: integer overflow conversion int64 -> uint64 (gosec)
+	binary.LittleEndian.PutUint64(data[1:9], uint64(msg.Tick))
+	                                               ^
+internal/net/message.go:52:51: G115: integer overflow conversion int -> uint32 (gosec)
+	binary.LittleEndian.PutUint32(data[17:21], uint32(len(msg.Payload)))
+	                                                 ^
+internal/net/message.go:71:18: G115: integer overflow conversion uint64 -> int64 (gosec)
+		Tick:     int64(binary.LittleEndian.Uint64(data[1:9])),
+		               ^
+internal/net/server.go:63:9: G114: Use of net/http serve function that has no support for setting timeouts (gosec)
+	return http.ListenAndServe(addr, nil)
+	       ^
+internal/net/server.go:192:2: G104: Errors unhandled (gosec)
+	c.conn.Close()
+	^
+internal/render3d/primitives.go:82:19: G115: integer overflow conversion int -> uint32 (gosec)
+			first := uint32(i*(segments+1) + j)
+			               ^
+internal/render3d/primitives.go:83:35: G115: integer overflow conversion int -> uint32 (gosec)
+			second := uint32(first + uint32(segments) + 1)
+			                               ^
+internal/render3d/primitives.go:119:21: G115: integer overflow conversion int -> uint32 (gosec)
+			topLeft := uint32(z*(subdivisionsX+1) + x)
+			                 ^
+internal/render3d/primitives.go:121:34: G115: integer overflow conversion int -> uint32 (gosec)
+			bottomLeft := topLeft + uint32(subdivisionsX+1)
+			                              ^
+internal/render3d/primitives.go:165:17: G115: integer overflow conversion int -> uint32 (gosec)
+		topA := uint32(2 + i*2)
+		              ^
+internal/render3d/primitives.go:166:17: G115: integer overflow conversion int -> uint32 (gosec)
+		topB := uint32(2 + (i+1)*2)
+		              ^
+internal/systems/collision.go:26:36: G115: integer overflow conversion int -> uint32 (gosec)
+	return int64(x)<<32 | int64(uint32(y))
+	                                  ^
+internal/systems/combat.go:131:33: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		if attackerCrit.Guaranteed || rand.Float64() < attackerCrit.Chance {
+		                              ^
+internal/systems/pathfinding.go:277:36: G115: integer overflow conversion int -> uint32 (gosec)
+	return int64(x)<<32 | int64(uint32(y))
+	                                  ^
+internal/systems/spawner.go:106:12: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		angle := rand.Float64() * 2 * 3.14159
+		         ^
+internal/systems/spawner.go:107:11: G404: Use of weak random number generator (math/rand or math/rand/v2 instead of crypto/rand) (gosec)
+		dist := rand.Float64() * sp.Radius
+		        ^
+internal/systems/tilemap_render.go:96:32: G115: integer overflow conversion int -> uint (gosec)
+		if tilemap.LayerMask&(1<<uint(layerIdx)) == 0 {
+		                             ^
+internal/tools/atlas_packer.go:56:17: G304: Potential file inclusion via variable (gosec)
+			file, err := os.Open(path)
+			             ^
+internal/tools/atlas_packer.go:148:18: G304: Potential file inclusion via variable (gosec)
+	outFile, err := os.Create(outputName + ".png")
+	                ^
+internal/tools/atlas_packer.go:164:19: G304: Potential file inclusion via variable (gosec)
+	jsonFile, err := os.Create(outputName + ".json")
+	                 ^
+internal/tools/compressor.go:28:12: G301: Expect directory permissions to be 0750 or less (gosec)
+	if err := os.MkdirAll(c.OutputDir, 0o755); err != nil {
+	          ^
+internal/tools/compressor.go:50:13: G301: Expect directory permissions to be 0750 or less (gosec)
+		if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+		          ^
+internal/tools/compressor.go:66:18: G304: Potential file inclusion via variable (gosec)
+	zipFile, err := os.Create(dest)
+	                ^
+internal/tools/compressor.go:96:16: G304: Potential file inclusion via variable (gosec)
+		file, err := os.Open(path)
+		             ^
+internal/tools/compressor.go:120:17: G304: Potential file inclusion via variable (gosec)
+	source, err := os.Open(src)
+	               ^
+internal/tools/compressor.go:126:22: G304: Potential file inclusion via variable (gosec)
+	destination, err := os.Create(dst)
+	                    ^
+internal/tools/compressor.go:141:17: G304: Potential file inclusion via variable (gosec)
+	source, err := os.Open(src)
+	               ^
+internal/tools/compressor.go:147:22: G304: Potential file inclusion via variable (gosec)
+	destination, err := os.Create(dst)
+	                    ^
+examples/slots/main.go:61:15: string literal contains rune in Han script (gosmopolitan)
+		NameCN:    "龙",
+		            ^
+examples/slots/main.go:67:15: string literal contains rune in Han script (gosmopolitan)
+		NameCN:    "凤",
+		            ^
+examples/slots/main.go:73:15: string literal contains rune in Han script (gosmopolitan)
+		NameCN:    "聚宝盆",
+		            ^
+examples/slots/main.go:79:15: string literal contains rune in Han script (gosmopolitan)
+		NameCN:    "百搭",
+		            ^
+examples/slots/main.go:679:4: string literal contains rune in Han script (gosmopolitan)
+		"押分",
+		 ^
+examples/slots/main.go:689:4: string literal contains rune in Han script (gosmopolitan)
+		"总分",
+		 ^
+examples/slots/main.go:702:49: string literal contains rune in Han script (gosmopolitan)
+	sm.drawInfoPanel(screen, 420, int(panelY)+15, "赢分", sm.formatNumber(sm.TotalWin), winColor)
+	                                               ^
+examples/slots/main.go:725:15: string literal contains rune in Han script (gosmopolitan)
+	spinText := "转动 SPIN"
+	             ^
+examples/slots/main.go:833:25: string literal contains rune in Han script (gosmopolitan)
+	ebiten.SetWindowTitle("财神到 - Fortune Arrives")
+	                       ^
+internal/assets/spritesheet.go:114:6: structtag: struct field Y repeats json tag "x" also at spritesheet.go:114 (govet)
+		X, Y, W, H int `json:"x,y,w,h"`
+		   ^
+internal/assets/spritesheet.go:114:9: structtag: struct field W repeats json tag "x" also at spritesheet.go:114 (govet)
+		X, Y, W, H int `json:"x,y,w,h"`
+		      ^
+internal/assets/spritesheet.go:114:12: structtag: struct field H repeats json tag "x" also at spritesheet.go:114 (govet)
+		X, Y, W, H int `json:"x,y,w,h"`
+		         ^
+examples/survivor/main.go:3644:2: ineffectual assignment to y (ineffassign)
+	y += 35
+	^
+examples/underneath/hub.go:1186:3: ineffectual assignment to headerBgCol (ineffassign)
+		headerBgCol = color.RGBA{200, 200, 200, 255} // White-ish header? No, usually black for normal
+		^
+examples/underneath/hub.go:1191:3: ineffectual assignment to headerBgCol (ineffassign)
+		headerBgCol = color.RGBA{
+		^
+examples/underneath/ui.go:1702:4: ineffectual assignment to radius (ineffassign)
+			radius float64 = 14
+			^
+internal/debug/inspector.go:185:2: ineffectual assignment to y (ineffassign)
+	y += lineHeight
+	^
+examples/underneath/profile.go:111:34: the given struct should be annotated with the `json` tag (musttag)
+	data, err := json.MarshalIndent(p, "", "  ")
+	                                ^
+examples/underneath/profile.go:136:29: the given struct should be annotated with the `json` tag (musttag)
+				if json.Unmarshal(data, &p) == nil {
+				                        ^
+examples/underneath/settings.go:452:34: the given struct should be annotated with the `json` tag (musttag)
+	data, err := json.MarshalIndent(settings, "", "  ")
+	                                ^
+examples/underneath/settings.go:469:33: the given struct should be annotated with the `json` tag (musttag)
+	if err := json.Unmarshal(data, &loaded); err != nil {
+	                               ^
+internal/assets/tilemap.go:73:33: the given struct should be annotated with the `json` tag (musttag)
+	if err := json.Unmarshal(data, &tiledMap); err != nil {
+	                               ^
+internal/evolution/deps.go:117:21: os/exec.Command must not be called. use os/exec.CommandContext (noctx)
+	cmd := exec.Command("go", "list", "-m", "-u", "-json", "all")
+	                   ^
+internal/ai/qa_agent.go:143:2: Consider pre-allocating `parts` (prealloc)
+	var parts []string
+	^
+examples/agar/main.go:360:15: param min has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+              ^
+examples/agar/main.go:360:20: param max has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+                   ^
+examples/breakout/main.go:611:15: param min has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+              ^
+examples/breakout/main.go:611:20: param max has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+                   ^
+examples/pikachu_volleyball/main.go:548:15: param min has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+              ^
+examples/pikachu_volleyball/main.go:548:20: param max has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+                   ^
+examples/pong/main.go:676:15: param min has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+              ^
+examples/pong/main.go:676:20: param max has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+                   ^
+examples/space_shooter/main.go:395:15: param min has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+              ^
+examples/space_shooter/main.go:395:20: param max has same name as predeclared identifier (predeclared)
+func clamp(v, min, max float64) float64 {
+                   ^
+examples/underneath/ui.go:1223:20: param min has same name as predeclared identifier (predeclared)
+func clampFloat(v, min, max float64) float64 {
+                   ^
+examples/underneath/ui.go:1223:25: param max has same name as predeclared identifier (predeclared)
+func clampFloat(v, min, max float64) float64 {
+                        ^
+internal/ai/difficulty.go:58:73: param min has same name as predeclared identifier (predeclared)
+func (d *DifficultyBalancer) RegisterParameter(name string, defaultVal, min, max float64, inverted bool) {
+                                                                        ^
+internal/ai/difficulty.go:58:78: param max has same name as predeclared identifier (predeclared)
+func (d *DifficultyBalancer) RegisterParameter(name string, defaultVal, min, max float64, inverted bool) {
+                                                                             ^
+internal/ai/difficulty.go:186:19: param min has same name as predeclared identifier (predeclared)
+func clamp(value, min, max float64) float64 {
+                  ^
+internal/ai/difficulty.go:186:24: param max has same name as predeclared identifier (predeclared)
+func clamp(value, min, max float64) float64 {
+                       ^
+internal/components/core.go:52:16: param max has same name as predeclared identifier (predeclared)
+func NewHealth(max int) Health {
+               ^
+internal/components/gameplay.go:154:14: param max has same name as predeclared identifier (predeclared)
+func NewMana(max float64) Mana {
+             ^
+internal/components/gamestate.go:69:15: param max has same name as predeclared identifier (predeclared)
+func NewLives(max int) Lives {
+              ^
+internal/components/progression.go:43:15: param max has same name as predeclared identifier (predeclared)
+func NewLevel(max int) Level {
+              ^
+internal/game/environment.go:52:26: param new has same name as predeclared identifier (predeclared)
+	onPhaseChange func(old, new TimeOfDay)
+	                        ^
+internal/game/environment.go:74:55: param new has same name as predeclared identifier (predeclared)
+func (d *DayNightCycle) SetOnPhaseChange(fn func(old, new TimeOfDay)) {
+                                                      ^
+internal/game/environment.go:286:28: param new has same name as predeclared identifier (predeclared)
+	onWeatherChange func(old, new WeatherType)
+	                          ^
+internal/game/environment.go:309:57: param new has same name as predeclared identifier (predeclared)
+func (w *WeatherSystem) SetOnWeatherChange(fn func(old, new WeatherType)) {
+                                                        ^
+internal/game/hud.go:60:36: param max has same name as predeclared identifier (predeclared)
+func (b *HUDBar) SetValue(current, max float64) {
+                                   ^
+internal/game/pathfinding.go:189:6: function min has same name as predeclared identifier (predeclared)
+func min(a, b float64) float64 {
+     ^
+internal/render3d/collision.go:349:21: param min has same name as predeclared identifier (predeclared)
+func clamp32(value, min, max float32) float32 {
+                    ^
+internal/render3d/collision.go:349:26: param max has same name as predeclared identifier (predeclared)
+func clamp32(value, min, max float32) float32 {
+                         ^
+internal/systems/cooldown.go:177:81: named return max has same name as predeclared identifier (predeclared)
+func (s *CooldownSystem) GetMana(world *ecs.World, entity ecs.Entity) (current, max float64) {
+                                                                                ^
+internal/systems/gamestate.go:136:83: named return max has same name as predeclared identifier (predeclared)
+func (s *GameStateSystem) GetLives(world *ecs.World, entity ecs.Entity) (current, max int) {
+                                                                                  ^
+internal/game/pathfinding.go:210:6: the methods of "nodeHeap" use pointer receiver and non-pointer receiver. (recvcheck)
+type nodeHeap []*PathNode
+     ^
+internal/systems/pathfinding.go:20:6: the methods of "PathHeap" use pointer receiver and non-pointer receiver. (recvcheck)
+type PathHeap []*PathNode
+     ^
+examples/agar/main.go:51:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/agar/main.go:250:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/agar/main.go:265:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/agar/main.go:283:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(screenX), float32(screenY), 5, food.Color, false)
+			^
+examples/agar/main.go:294:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(
+			^
+examples/agar/main.go:319:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/agar/main.go:345:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/blackjack/main.go:94:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/blackjack/main.go:257:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/blackjack/main.go:297:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/blackjack/main.go:336:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/blackjack/main.go:357:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, float32(x), float32(y), cardW, cardH, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+		^
+examples/breakout/main.go:97:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/breakout/main.go:382:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), float32(p.Size*p.Life), c, false)
+		^
+examples/breakout/main.go:414:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, x, y, 35, 18, colors[col], false)
+		^
+examples/breakout/main.go:421:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/breakout/main.go:430:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 15, G: 20, B: 35, A: 240}, false)
+	^
+examples/breakout/main.go:460:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/breakout/main.go:469:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/breakout/main.go:483:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/breakout/main.go:499:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/breakout/main.go:508:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/breakout/main.go:520:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/breakout/main.go:528:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/breakout/main.go:538:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 40, color.RGBA{R: 0, G: 0, B: 0, A: 180}, false)
+	^
+examples/breakout/main.go:542:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/breakout/main.go:559:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/breakout/main.go:582:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/breakout/main.go:594:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 20, G: 25, B: 40, A: 255}, false)
+	^
+examples/cookie_clicker/main.go:145:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, 300, screenHeight, color.RGBA{R: 50, G: 40, B: 60, A: 255}, false)
+	^
+examples/cookie_clicker/main.go:158:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(
+			^
+examples/cookie_clicker/main.go:170:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 300, 0, 300, screenHeight, color.RGBA{R: 60, G: 50, B: 70, A: 255}, false)
+	^
+examples/cookie_clicker/main.go:178:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/cookie_clicker/main.go:195:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/cookie_clicker/main.go:222:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/cookie_clicker/main.go:243:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(x), float32(y), 260, 50, bgColor, false)
+	^
+examples/flappy/main.go:77:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/flappy/main.go:276:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/flappy/main.go:296:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), float32(p.Size*p.Life), c, false)
+		^
+examples/flappy/main.go:300:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:309:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:320:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/flappy/main.go:355:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:364:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 50, G: 50, B: 70, A: 240}, false)
+	^
+examples/flappy/main.go:390:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:403:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 40, G: 40, B: 60, A: 250}, false)
+		^
+examples/flappy/main.go:422:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/flappy/main.go:431:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/flappy/main.go:439:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/flappy/main.go:448:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:463:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/flappy/main.go:482:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(pipe.X), 0, float32(pipeWidth), float32(gapTop), pipeColor, false)
+	^
+examples/flappy/main.go:483:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(pipe.X), 0, 5, float32(gapTop), pipeHighlight, false)
+	^
+examples/flappy/main.go:484:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:495:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:504:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/flappy/main.go:513:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/match3/main.go:99:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/match3/main.go:436:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), float32(p.Size*p.Life), c, false)
+		^
+examples/match3/main.go:452:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, x, y, 18, GemColors[i], false)
+		^
+examples/match3/main.go:453:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, x-4, y-4, 5, color.RGBA{R: 255, G: 255, B: 255, A: 80}, false)
+		^
+examples/match3/main.go:460:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/match3/main.go:469:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 50, G: 40, B: 60, A: 245}, false)
+	^
+examples/match3/main.go:494:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 70, color.RGBA{R: 55, G: 45, B: 65, A: 255}, false)
+	^
+examples/match3/main.go:507:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(gridOffsetX), float32(gridOffsetY),
+	^
+examples/match3/main.go:523:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/match3/main.go:538:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, drawX, drawY, radius, gemColor, false)
+			^
+examples/match3/main.go:541:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(
+				^
+examples/match3/main.go:556:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/match3/main.go:569:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:54:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/minesweeper/main.go:245:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 70, color.RGBA{R: 150, G: 150, B: 150, A: 255}, false)
+	^
+examples/minesweeper/main.go:257:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(gridOffsetX-3), float32(gridOffsetY-3),
+	^
+examples/minesweeper/main.go:279:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(x), float32(y), 80, 40, color.RGBA{R: 0, G: 0, B: 0, A: 255}, false)
+	^
+examples/minesweeper/main.go:313:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, btnX, btnY, 40, 40, color.RGBA{R: 200, G: 200, B: 200, A: 255}, false)
+	^
+examples/minesweeper/main.go:335:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:344:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, x, y, cellSize-1, 2, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+		^
+examples/minesweeper/main.go:345:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, x, y, 2, cellSize-1, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+		^
+examples/minesweeper/main.go:346:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:355:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:366:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:378:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/minesweeper/main.go:399:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(
+			^
+examples/mini_rts/main.go:63:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/mini_rts/main.go:151:2: SA9003: empty branch (staticcheck)
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) && g.selecting {
+	^
+examples/mini_rts/main.go:305:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 50, color.RGBA{R: 40, G: 40, B: 40, A: 220}, false)
+	^
+examples/mini_rts/main.go:319:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/mini_rts/main.go:364:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, float32(u.X), float32(u.Y), size, c, false)
+	^
+examples/mini_rts/main.go:386:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, barX, barY, barW, barH, color.RGBA{R: 60, G: 60, B: 60, A: 255}, false)
+	^
+examples/mini_rts/main.go:387:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pikachu_volleyball/main.go:347:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/pikachu_volleyball/main.go:359:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 50, G: 50, B: 70, A: 255}, false)
+		^
+examples/pikachu_volleyball/main.go:377:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/pikachu_volleyball/main.go:402:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 30, G: 30, B: 50, A: 255}, false)
+		^
+examples/pikachu_volleyball/main.go:491:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/pikachu_volleyball/main.go:529:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/platformer/main.go:285:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/platformer/main.go:308:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/platformer/main.go:317:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/platformer/main.go:327:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/platformer/main.go:337:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/platformer/main.go:356:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(
+			^
+examples/platformer/main.go:380:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 35, color.RGBA{R: 0, G: 0, B: 0, A: 150}, false)
+	^
+examples/platformer/main.go:385:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/platformer/main.go:409:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/platformer/main.go:420:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/platformer/main.go:435:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/pong/main.go:89:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/pong/main.go:408:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/pong/main.go:422:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:431:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 20, G: 25, B: 40, A: 240}, false)
+	^
+examples/pong/main.go:456:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/pong/main.go:470:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/pong/main.go:492:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:501:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:511:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:520:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:533:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/pong/main.go:541:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/pong/main.go:556:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/pong/main.go:567:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/pong/main.go:595:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/pong/main.go:605:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(screen, arrowX+10, screenHeight/2, 20, 3, color.RGBA{R: 255, G: 100, B: 100, A: 200}, false)
+			^
+examples/pong/main.go:613:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:625:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 30, G: 30, B: 50, A: 255}, false)
+	^
+examples/pong/main.go:633:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/pong/main.go:658:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 20, G: 25, B: 40, A: 255}, false)
+	^
+examples/puzzle_2048/main.go:88:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/puzzle_2048/main.go:463:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), float32(p.Size*p.Life), c, false)
+		^
+examples/puzzle_2048/main.go:486:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, x, y, 60, 60, TileColors[vals[i]], false)
+		^
+examples/puzzle_2048/main.go:494:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/puzzle_2048/main.go:503:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 187, G: 173, B: 160, A: 250}, false)
+	^
+examples/puzzle_2048/main.go:528:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 100, color.RGBA{R: 187, G: 173, B: 160, A: 255}, false)
+	^
+examples/puzzle_2048/main.go:538:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/puzzle_2048/main.go:566:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/puzzle_2048/main.go:604:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, ox, oy, ts, ts, tileColor, false)
+	^
+examples/puzzle_2048/main.go:615:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, screenHeight, bgColor, false)
+	^
+examples/puzzle_2048/main.go:619:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+	^
+examples/roguelike/main.go:85:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/roguelike/main.go:410:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/roguelike/main.go:420:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/roguelike/main.go:430:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/roguelike/main.go:462:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, screenX, screenY, 8, c, false)
+		^
+examples/roguelike/main.go:473:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, screenX, screenY, 12, color.RGBA{R: 200, G: 50, B: 50, A: 255}, false)
+		^
+examples/roguelike/main.go:476:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/roguelike/main.go:490:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, playerX, playerY, 12, color.RGBA{R: 50, G: 150, B: 255, A: 255}, false)
+	^
+examples/roguelike/main.go:493:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/roguelike/main.go:535:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/rpg_battle/main.go:74:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/rpg_battle/main.go:399:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 50, 100, 600, 280, color.RGBA{R: 60, G: 70, B: 80, A: 255}, false)
+	^
+examples/rpg_battle/main.go:412:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 400, screenWidth, 100, color.RGBA{R: 30, G: 35, B: 45, A: 255}, false)
+	^
+examples/rpg_battle/main.go:495:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(x)-20, float32(y)-30, 40, 60, bodyColor, false)
+	^
+examples/rpg_battle/main.go:498:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/rpg_battle/main.go:517:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, barX, barY, barW, barH, color.RGBA{R: 60, G: 60, B: 60, A: 255}, false)
+	^
+examples/rpg_battle/main.go:524:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, barX, barY, barW*hpRatio, barH, barColor, false)
+	^
+examples/slots/main.go:147:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/slots/main.go:409:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/slots/main.go:437:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:446:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:456:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:470:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:479:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:489:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:498:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:514:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/slots/main.go:594:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/slots/main.go:603:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/slots/main.go:616:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/slots/main.go:655:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:664:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:719:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, btnX, btnY+5, btnW, btnH, color.RGBA{R: 100, G: 30, B: 30, A: 255}, false)
+	^
+examples/slots/main.go:720:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, btnX, btnY, btnW, btnH-5, btnColor, false)
+	^
+examples/slots/main.go:721:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, btnX+5, btnY+5, btnW-10, btnH-15, btnInner, false)
+	^
+examples/slots/main.go:734:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, 620, panelY+55, 12, color.RGBA{R: 0, G: 255, B: 0, A: 255}, false)
+		^
+examples/slots/main.go:740:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:762:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:783:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/slots/main.go:794:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/snake/main.go:77:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/snake/main.go:344:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), float32(p.Size*p.Life), c, false)
+		^
+examples/snake/main.go:365:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/snake/main.go:381:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/snake/main.go:390:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 20, G: 30, B: 45, A: 240}, false)
+	^
+examples/snake/main.go:421:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/snake/main.go:429:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(
+	^
+examples/snake/main.go:446:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, x, y, radius+3, color.RGBA{R: 100, G: 255, B: 100, A: 60}, false)
+			^
+examples/snake/main.go:447:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, x, y, radius, color.RGBA{R: 80, G: 220, B: 80, A: 255}, false)
+			^
+examples/snake/main.go:452:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, ex1, ey1, 2, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+			^
+examples/snake/main.go:453:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, ex2, ey2, 2, color.RGBA{R: 255, G: 255, B: 255, A: 255}, false)
+			^
+examples/snake/main.go:458:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, x, y, radius, color.RGBA{R: 40, G: g, B: 40, A: 255}, false)
+			^
+examples/snake/main.go:463:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 5, 5, 140, 35, color.RGBA{R: 0, G: 0, B: 0, A: 180}, false)
+	^
+examples/snake/main.go:475:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/snake/main.go:490:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/snake/main.go:499:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 25, G: 25, B: 40, A: 250}, false)
+		^
+examples/space_shooter/main.go:58:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/space_shooter/main.go:271:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(p.X), float32(p.Y), 3, c, false)
+		^
+examples/space_shooter/main.go:276:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/space_shooter/main.go:311:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(
+		^
+examples/space_shooter/main.go:327:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, x-15, y-10, 30, 25, color.RGBA{R: 100, G: 150, B: 255, A: 255}, false)
+	^
+examples/space_shooter/main.go:329:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, x, y-5, 8, color.RGBA{R: 50, G: 200, B: 255, A: 255}, false)
+	^
+examples/space_shooter/main.go:331:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, x-25, y+5, 50, 8, color.RGBA{R: 80, G: 120, B: 200, A: 255}, false)
+	^
+examples/space_shooter/main.go:333:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, x-8, y+15, 16, 8, color.RGBA{R: 255, G: 150, B: 50, A: 255}, false)
+	^
+examples/space_shooter/main.go:341:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, x, y, float32(e.W/2), color.RGBA{R: 200, G: 50, B: 50, A: 255}, false)
+	^
+examples/space_shooter/main.go:343:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, x-8, y-5, 5, color.RGBA{R: 255, G: 255, B: 0, A: 255}, false)
+	^
+examples/space_shooter/main.go:344:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, x+8, y-5, 5, color.RGBA{R: 255, G: 255, B: 0, A: 255}, false)
+	^
+examples/space_shooter/main.go:349:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 40, color.RGBA{R: 20, G: 20, B: 40, A: 200}, false)
+	^
+examples/space_shooter/main.go:357:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/space_shooter/main.go:372:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 40, G: 40, B: 60, A: 255}, false)
+	^
+examples/survivor/main.go:766:2: SA1019: rand.Seed has been deprecated since Go 1.20 and an alternative has been available since Go 1.0: As of Go 1.20 there is no reason to call Seed with a random value. Programs that call Seed with a known value to get a specific sequence of results should use New(NewSource(seed)) to obtain a local random generator. (staticcheck)
+	rand.Seed(time.Now().UnixNano())
+	^
+examples/survivor/main.go:2404:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, float32(x), float32(y), 150, 280, boxColor, false)
+		^
+examples/survivor/main.go:2434:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(x+75), float32(y+60), 40, char.Color, false)
+			^
+examples/survivor/main.go:2468:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/survivor/main.go:2480:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(
+		^
+examples/survivor/main.go:2500:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/survivor/main.go:2532:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(px), float32(py), 20, pColor, false)
+		^
+examples/survivor/main.go:2584:6: SA1019: op.ColorM is deprecated: as of v2.5. Use ColorScale or the package colorm instead. (staticcheck)
+					op.ColorM.Scale(10, 10, 10, 1)
+					^
+examples/survivor/main.go:2584:6: SA1019: op.ColorM.Scale is deprecated: as of v2.5. Use ColorScale or the colorm package instead. (staticcheck)
+					op.ColorM.Scale(10, 10, 10, 1)
+					^
+examples/survivor/main.go:2589:6: SA1019: op.ColorM is deprecated: as of v2.5. Use ColorScale or the package colorm instead. (staticcheck)
+					op.ColorM.Scale(r, g, b, 1)
+					^
+examples/survivor/main.go:2589:6: SA1019: op.ColorM.Scale is deprecated: as of v2.5. Use ColorScale or the colorm package instead. (staticcheck)
+					op.ColorM.Scale(r, g, b, 1)
+					^
+examples/survivor/main.go:2599:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(e.Radius), c, false)
+				^
+examples/survivor/main.go:2621:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/survivor/main.go:2631:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/survivor/main.go:2675:6: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+					vector.DrawFilledCircle(
+					^
+examples/survivor/main.go:2686:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius)+3, glowColor, false)
+			^
+examples/survivor/main.go:2687:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius), p.Color, false)
+			^
+examples/survivor/main.go:2692:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(screen, tipX, tipY, float32(p.Radius)*0.5, color.White, false)
+				^
+examples/survivor/main.go:2706:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(
+				^
+examples/survivor/main.go:2715:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(
+				^
+examples/survivor/main.go:2739:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius)+5, glowColor, false)
+			^
+examples/survivor/main.go:2773:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy+p.Radius), 4, color.White, false)
+			^
+examples/survivor/main.go:2785:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(screen, float32(orbX), float32(orbY), 5, p.Color, false)
+				^
+examples/survivor/main.go:2788:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(
+			^
+examples/survivor/main.go:2812:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(
+				^
+examples/survivor/main.go:2826:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/survivor/main.go:2836:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/survivor/main.go:2889:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius)*0.3, p.Color, false)
+			^
+examples/survivor/main.go:2915:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius)+4, glowColor, false)
+			^
+examples/survivor/main.go:2917:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius), p.Color, false)
+			^
+examples/survivor/main.go:2924:5: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+				vector.DrawFilledRect(
+				^
+examples/survivor/main.go:2937:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius)+2, glowColor, false)
+			^
+examples/survivor/main.go:2938:4: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+			vector.DrawFilledCircle(screen, float32(sx), float32(sy), float32(p.Radius), p.Color, false)
+			^
+examples/survivor/main.go:2952:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(
+			^
+examples/survivor/main.go:2967:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 60, color.RGBA{R: 0, G: 0, B: 0, A: 200}, false)
+	^
+examples/survivor/main.go:2970:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, 30, 30, 22, Characters[g.player.CharType].Color, false)
+	^
+examples/survivor/main.go:2973:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 60, 8, 200, 18, color.RGBA{R: 40, G: 40, B: 40, A: 255}, false)
+	^
+examples/survivor/main.go:2976:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 60, 8, 200*hpRatio, 18, color.RGBA{R: 200, G: 50, B: 50, A: 255}, false)
+	^
+examples/survivor/main.go:2983:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 60, 32, 200, 12, color.RGBA{R: 40, G: 40, B: 40, A: 255}, false)
+	^
+examples/survivor/main.go:2984:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 60, 32, 200*xpRatio, 12, color.RGBA{R: 100, G: 200, B: 255, A: 255}, false)
+	^
+examples/survivor/main.go:3007:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(screen, float32(x), float32(y), 50, 50, def.Color, false)
+			^
+examples/survivor/main.go:3024:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3037:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 30, G: 35, B: 50, A: 255}, false)
+	^
+examples/survivor/main.go:3047:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, boxX+20, float32(y)-5, boxW-40, 55, optColor, false)
+		^
+examples/survivor/main.go:3080:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3093:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 40, G: 45, B: 60, A: 255}, false)
+	^
+examples/survivor/main.go:3102:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3115:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, boxX, boxY, boxW, boxH, color.RGBA{R: 50, G: 30, B: 30, A: 255}, false)
+	^
+examples/survivor/main.go:3140:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3154:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3192:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, slotStartX, y, slotW, slotH-5, bgCol, false)
+		^
+examples/survivor/main.go:3211:4: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+			vector.DrawFilledRect(screen, slotStartX+slotW-30, y+5, 25, 25, itemCol, false)
+			^
+examples/survivor/main.go:3246:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, x, y, itemW, itemH, bgCol, false)
+		^
+examples/survivor/main.go:3383:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(nodeX), float32(nodeY), float32(nodeRadius), nodeCol, false)
+		^
+examples/survivor/main.go:3425:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(screen, ttX, ttY, ttW, ttH, color.RGBA{R: 20, G: 20, B: 30, A: 240}, false)
+		^
+examples/survivor/main.go:3444:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 0, screenWidth, 40, color.RGBA{R: 20, G: 20, B: 30, A: 220}, false)
+	^
+examples/survivor/main.go:3506:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3520:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3556:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3565:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3583:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3592:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3774:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(img, 0, 0, float32(size), float32(size), bgCol, false)
+	^
+examples/survivor/main.go:3791:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 15, c, false)
+		^
+examples/survivor/main.go:3795:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 20, color.Black, false)
+		^
+examples/survivor/main.go:3813:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy+5, 12, c, false)
+		^
+examples/survivor/main.go:3814:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy-8, 8, c, false)
+		^
+examples/survivor/main.go:3817:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 18, c, false)
+		^
+examples/survivor/main.go:3818:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx-8, cy-5, 6, color.Black, false) // Eyes
+		^
+examples/survivor/main.go:3819:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx+8, cy-5, 6, color.Black, false)
+		^
+examples/survivor/main.go:3826:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 20, c, false)
+		^
+examples/survivor/main.go:3827:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 12, color.RGBA{255, 200, 50, 255}, false)
+		^
+examples/survivor/main.go:3838:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(img, cx-5, cy-20, 10, 40, c, false)
+		^
+examples/survivor/main.go:3839:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(img, cx-15, cy-5, 30, 10, c, false)
+		^
+examples/survivor/main.go:3842:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(img, cx-8, cy-25, 16, 50, c, false)
+		^
+examples/survivor/main.go:3846:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 18, c, false)
+		^
+examples/survivor/main.go:3850:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 20, c, false)
+		^
+examples/survivor/main.go:3862:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/survivor/main.go:3879:3: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+		vector.DrawFilledRect(img, cx-12, cy-12, 24, 24, color.RGBA{150, 150, 150, 255}, false)
+		^
+examples/survivor/main.go:3887:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx-6, cy-5, 8, color.RGBA{255, 100, 100, 255}, false)
+		^
+examples/survivor/main.go:3888:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx+6, cy-5, 8, color.RGBA{255, 100, 100, 255}, false)
+		^
+examples/survivor/main.go:3889:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy+8, 8, color.RGBA{255, 100, 100, 255}, false)
+		^
+examples/survivor/main.go:3891:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx, cy, 15, color.RGBA{50, 200, 50, 255}, false)
+		^
+examples/survivor/main.go:3905:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx-8, cy, 5, color.White, false)
+		^
+examples/survivor/main.go:3906:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(img, cx+8, cy, 5, color.White, false)
+		^
+examples/underneath/audio.go:236:15: SA1019: audio.NewPlayer is deprecated: as of v2.2. Use (*Context).NewPlayer instead. (staticcheck)
+	player, _ := audio.NewPlayer(audioContext, loop)
+	             ^
+examples/underneath/hub.go:306:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 58, float32(ScreenWidth), 2, ColorAccent, false)
+	^
+examples/underneath/hub.go:849:4: SA1019: op.ColorM is deprecated: as of v2.5. Use ColorScale or the package colorm instead. (staticcheck)
+			op.ColorM.Scale(1, 1, 1, 0.4) // dimmed
+			^
+examples/underneath/hub.go:849:4: SA1019: op.ColorM.Scale is deprecated: as of v2.5. Use ColorScale or the colorm package instead. (staticcheck)
+			op.ColorM.Scale(1, 1, 1, 0.4) // dimmed
+			^
+examples/underneath/hub.go:1186:3: SA4006: this value of headerBgCol is never used (staticcheck)
+		headerBgCol = color.RGBA{200, 200, 200, 255} // White-ish header? No, usually black for normal
+		^
+examples/underneath/hub.go:1191:3: SA4006: this value of headerBgCol is never used (staticcheck)
+		headerBgCol = color.RGBA{
+		^
+examples/underneath/hub.go:1237:9: SA9003: empty branch (staticcheck)
+	} else {
+	       ^
+examples/underneath/hub.go:1468:5: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+				vector.DrawFilledCircle(
+				^
+examples/underneath/hub.go:1531:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, float32(gx+cellSize/2), float32(gy+cellSize/2), 15, gemCol, false)
+		^
+examples/underneath/mouse.go:154:4: SA9003: empty branch (staticcheck)
+			if mouse.LeftJustPressed {
+			^
+examples/underneath/screens.go:261:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, 0, 58, float32(ScreenWidth), 2, ColorAccent, false)
+	^
+examples/underneath/sidebar.go:292:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/underneath/sidebar.go:302:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(
+	^
+examples/underneath/ui.go:1582:5: SA1019: op.ColorM is deprecated: as of v2.5. Use ColorScale or the package colorm instead. (staticcheck)
+				op.ColorM.Scale(0.6, 0.6, 0.6, 1)
+				^
+examples/underneath/ui.go:1582:5: SA1019: op.ColorM.Scale is deprecated: as of v2.5. Use ColorScale or the colorm package instead. (staticcheck)
+				op.ColorM.Scale(0.6, 0.6, 0.6, 1)
+				^
+examples/underneath/ui.go:1757:3: SA9003: empty branch (staticcheck)
+		if isAllocated {
+		^
+examples/underneath/ui.go:1918:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, float32(x), float32(y), float32(w), float32(h), col, false)
+	^
+examples/underneath/ui.go:1939:2: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+	vector.DrawFilledCircle(screen, float32(x), float32(y), float32(r), col, false)
+	^
+internal/ai/lore.go:163:26: SA1019: strings.Title has been deprecated since Go 1.18 and an alternative has been available since Go 1.0: The rule Title uses for word boundaries does not handle Unicode punctuation properly. Use golang.org/x/text/cases instead. (staticcheck)
+		sb.WriteString("## " + strings.Title(category) + "s\n\n")
+		                       ^
+internal/assets/spritesheet.go:114:18: SA5008: unknown JSON option "y" (staticcheck)
+		X, Y, W, H int `json:"x,y,w,h"`
+		               ^
+internal/assets/spritesheet.go:114:18: SA5008: unknown JSON option "h" (staticcheck)
+		X, Y, W, H int `json:"x,y,w,h"`
+		               ^
+internal/assets/spritesheet.go:114:18: SA5008: unknown JSON option "w" (staticcheck)
+		X, Y, W, H int `json:"x,y,w,h"`
+		               ^
+internal/components/status.go:66:11: SA9003: empty branch (staticcheck)
+			} else {
+			       ^
+internal/debug/inspector.go:147:2: SA1019: vector.DrawFilledRect is deprecated: as of v2.9. Use [FillRect] instead. (staticcheck)
+	vector.DrawFilledRect(screen, panelX, panelY, panelW, panelH, color.RGBA{R: 0, G: 0, B: 0, A: 200}, false)
+	^
+internal/debug/inspector.go:213:3: SA1019: vector.DrawFilledCircle is deprecated: as of v2.9. Use [FillCircle] instead. (staticcheck)
+		vector.DrawFilledCircle(screen, screenX, screenY, 3, markerColor, false)
+		^
+internal/game/game.go:245:5: SA9003: empty branch (staticcheck)
+				if g.Hero.GainExp(closestMonster.Experience) {
+				^
+internal/systems/animation_test.go:41:2: SA9003: empty branch (staticcheck)
+	if sprite.Image == nil {
+	^
+internal/systems/status.go:28:4: SA9003: empty branch (staticcheck)
+			if e.UpdateTick(dt) {
+			^
+internal/tools/atlas_packer.go:115:3: SA9003: empty branch (staticcheck)
+		if currentY+h > p.MaxHeight {
+		^
+internal/ai/state_export.go:68:23: unnecessary conversion (unconvert)
+			ID:          uint32(entity.ID()),
+			                   ^
+internal/render3d/primitives.go:83:20: unnecessary conversion (unconvert)
+			second := uint32(first + uint32(segments) + 1)
+			                ^
+examples/rpg_battle/main.go:481:66: (*Game).drawCharacter - idx is unused (unparam)
+func (g *Game) drawCharacter(screen *ebiten.Image, c *Character, idx int, isEnemy bool) {
+                                                                 ^
+examples/slots/main.go:756:2: (*SlotMachine).drawInfoPanel - valueColor is unused (unparam)
+	valueColor color.RGBA,
+	^
+examples/survivor/main.go:1620:26: (*Game).collectXP - dt is unused (unparam)
+func (g *Game) collectXP(dt float64) {
+                         ^
+examples/underneath/effects.go:119:28: rollItemRarityForDrop - bonus is unused (unparam)
+func rollItemRarityForDrop(bonus float64) ItemRarity {
+                           ^
+examples/underneath/gem.go:334:34: (*Gem).GainXP - result 0 (bool) is never used (unparam)
+func (g *Gem) GainXP(amount int) bool {
+                                 ^
+examples/underneath/hub.go:984:64: (*Game).drawStashContent - h is unused (unparam)
+func (g *Game) drawStashContent(screen *ebiten.Image, x, y, w, h float64) {
+                                                               ^
+examples/underneath/hub.go:1546:56: (*Game).drawLootTab - w is unused (unparam)
+func (g *Game) drawLootTab(screen *ebiten.Image, x, y, w, h float64) {
+                                                       ^
+examples/underneath/isometric.go:41:57: GetMapOffset - screenHeight is unused (unparam)
+func GetMapOffset(mapWidth, mapHeight int, screenWidth, screenHeight float64) (offsetX, offsetY float64) {
+                                                        ^
+examples/underneath/logic.go:847:30: (*Game).updateShrines - dt is unused (unparam)
+func (g *Game) updateShrines(dt float64) {
+                             ^
+examples/underneath/management.go:546:70: (*Game).drawStatRow - x always receives statX (135) (unparam)
+func (g *Game) drawStatRow(screen *ebiten.Image, name, value string, x, y, valueX float64) {
+                                                                     ^
+examples/underneath/management.go:546:76: (*Game).drawStatRow - valueX always receives valueX (824) (unparam)
+func (g *Game) drawStatRow(screen *ebiten.Image, name, value string, x, y, valueX float64) {
+                                                                           ^
+examples/underneath/sidebar.go:425:70: (*Game).drawHeroSidebarCard - displayIdx is unused (unparam)
+func (g *Game) drawHeroSidebarCard(screen *ebiten.Image, hero *Hero, displayIdx, actualIdx int, y float64) {
+                                                                     ^
+examples/underneath/sidebar.go:472:13: (*Game).drawStatPill - bgCol is unused (unparam)
+	accentCol, bgCol color.RGBA,
+	           ^
+examples/underneath/ui.go:474:8: (*Game).drawCyberpunkButton - w always receives btnW (300) (unparam)
+	x, y, w, h float64,
+	      ^
+examples/underneath/ui.go:474:11: (*Game).drawCyberpunkButton - h always receives btnH (50) (unparam)
+	x, y, w, h float64,
+	         ^
+examples/underneath/ui.go:1946:64: DrawText - col is unused (unparam)
+func DrawText(screen *ebiten.Image, text string, x, y float64, col color.Color) {
+                                                               ^
+internal/game/game.go:345:60: (*TDGame).drawCenteredOverlay - text is unused (unparam)
+func (g *TDGame) drawCenteredOverlay(screen *ebiten.Image, text string, clr color.RGBA) {
+                                                           ^
+examples/survivor/main.go:1161:3: assigned to baseAngle, but reassigned without using the value (wastedassign)
+		baseAngle := 0.0
+		^
+examples/survivor/main.go:3644:2: assigned to y, but never used afterwards (wastedassign)
+	y += 35
+	^
+examples/underneath/assets.go:537:2: assigned to spriteName, but reassigned without using the value (wastedassign)
+	spriteName := ""
+	^
+examples/underneath/ui.go:1702:4: assigned to radius, but reassigned without using the value (wastedassign)
+			radius float64 = 14
+			^
+internal/ai/session.go:120:2: assigned to tick, but reassigned without using the value (wastedassign)
+	tick := int64(0)
+	^
+internal/debug/inspector.go:185:2: assigned to y, but never used afterwards (wastedassign)
+	y += lineHeight
+	^
+make: *** [golint] Error 1
